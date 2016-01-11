@@ -1,0 +1,31 @@
+{
+    "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4337",
+    "name": "FSharpScript",
+    "friendlyName": "Execute F# Script",
+    "description": "Executes an F# .fsx script file",
+    "helpMarkDown": "This task executes an arbitrary .fsx file.",
+    "category": "Utility",
+    "author": "Isaac Abraham",
+    "version": {
+        "Major": 0,
+        "Minor": 1,
+        "Patch": 2
+    },
+    "minimumAgentVersion": "1.83.0",    
+    "instanceNameFormat": "Execute $(ScriptFile)",
+    "inputs": [
+        {
+            "name": "ScriptFile",
+            "type": "filePath",
+            "label": ".fsx file path",
+            "helpMarkDown": "The path to the .fsx file to execute.",
+            "required":"true"
+        }
+    ],
+    "execution": {
+        "Process": {
+            "target": "C:\\Program Files (x86)\\Microsoft SDKs\\F#\\4.0\\Framework\\v4.0\\fsi.exe",
+            "argumentFormat": "$(ScriptFile)"
+        }
+    }
+}

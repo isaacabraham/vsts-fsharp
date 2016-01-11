@@ -1,0 +1,46 @@
+{
+    "manifestVersion": 1,
+    "id": "fsharp-helpers-extension",
+    "version": "0.7.0",
+    "name": "F# Helpers for VSTS",
+    "publisher": "IsaacAbraham",
+    "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
+    "description": "Helpers for running tools often used within F# projects such as Paket and FAKE.",
+    "categories": [ "Build and release" ],
+    "icons": { "default": "extension-icon.png" },
+    "tags": [ "F#", "FAKE", "Paket" ],
+    "screenshots": [
+        { "path": "content\\images\\1.png" },
+        { "path": "content\\images\\2.png" }
+    ],
+    "content": { "details": { "path": "content\\details.md" } },
+    "links" : {
+        "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
+    },
+    "branding": {
+        "color": "rgb(51,51,51)",
+        "theme": "dark"
+    },
+    "files": [
+        { "path": "FAKERunner" },
+        { "path": "PaketRestore" },
+        { "path": "FSharpScript" }
+    ],
+    "contributions": [
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4339",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKERunner" }
+        },
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4338",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "PaketRestore" }
+        },
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4337",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FSharpScript" }
+        }
+    ]
+}
