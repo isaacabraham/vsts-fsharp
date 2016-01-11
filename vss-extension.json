@@ -13,7 +13,7 @@
         { "path": "content\\images\\1.png" },
         { "path": "content\\images\\2.png" }
     ],
-    "content": { "details": { "path": "content\\details.md" } },
+    "content": { "details": { "path": "readme.md" } },
     "links" : {
         "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
     },
