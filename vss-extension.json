@@ -1,11 +1,12 @@
 {
     "manifestVersion": 1,
     "id": "fsharp-helpers-extension",
-    "version": "0.7.0",
+    "version": "1.0.0",
     "name": "F# Helpers for VSTS",
     "publisher": "IsaacAbraham",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
     "description": "Helpers for running tools often used within F# projects such as Paket and FAKE.",
+    "public":  true,
     "categories": [ "Build and release" ],
     "icons": { "default": "extension-icon.png" },
     "tags": [ "F#", "FAKE", "Paket" ],
