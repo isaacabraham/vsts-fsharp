@@ -9,7 +9,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 1
+        "Patch": 4
     },
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Execute the $(FakeScript) FAKE script",
@@ -21,6 +21,14 @@
             "defaultValue": "build.fsx",
             "helpMarkDown": "The path to the FAKE build script.",
             "required": "true"
+        },
+        {
+            "name": "WorkingDirectory",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue":"",
+            "helpMarkDown": "The working directory (defaults to the root).",
+            "required":"false"
         },
         {
             "name": "FakeToolPath",
@@ -51,7 +59,7 @@
         "Process": {
             "target": "$(FakeToolPath)",
             "argumentFormat": "$(FakeScript) $(FakeTarget) $(FakeArguments)",
-            "workingDirectory": "$(Build.SourcesDirectory)"
+            "workingDirectory": "$(WorkingDirectory)"
         }
     }
 }
