@@ -7,9 +7,9 @@
     "category": "Build",
     "author": "Isaac Abraham",
     "version": {
-        "Major": 0,
-        "Minor": 1,
-        "Patch": 0
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 1
     },
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Execute the $(FakeScript) FAKE script",
@@ -21,6 +21,14 @@
             "defaultValue": "build.fsx",
             "helpMarkDown": "The path to the FAKE build script.",
             "required": "true"
+        },
+        {
+            "name": "FakeToolPath",
+            "type": "filePath",
+            "label": "Path to FAKE executable",
+            "defaultValue":"packages\\fake\\tools\\FAKE.exe",
+            "helpMarkDown": "The path to the FAKE executable.",
+            "required":"true"
         },
         {
             "name": "FakeTarget",
@@ -41,7 +49,7 @@
     ],
     "execution": {
         "Process": {
-            "target": "$(Build.SourcesDirectory)\\packages\\fake\\tools\\FAKE.exe",
+            "target": "$(FakeToolPath)",
             "argumentFormat": "$(FakeScript) $(FakeTarget) $(FakeArguments)",
             "workingDirectory": "$(Build.SourcesDirectory)"
         }
