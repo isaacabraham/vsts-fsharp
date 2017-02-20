@@ -1,2 +1,2 @@
 paket.bootstrapper.exe
-paket.exe restore
+paket.exe restore %1
