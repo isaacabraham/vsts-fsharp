@@ -26,7 +26,7 @@
             "name": "PaketGroupName",
             "type": "string",
             "label": "Paket Group Name",
-            "defaultValue":"",
+            "defaultValue": "",
             "helpMarkDown": "The optional group to restore packages from.",
             "required":"false"
         }
