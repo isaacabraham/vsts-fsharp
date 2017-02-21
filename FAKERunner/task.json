@@ -9,7 +9,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 4
+        "Patch": 6
     },
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Execute the $(FakeScript) FAKE script",
@@ -58,7 +58,7 @@
     "execution": {
         "Process": {
             "target": "$(FakeToolPath)",
-            "argumentFormat": "$(FakeScript) $(FakeTarget) $(FakeArguments)",
+            "argumentFormat": "\"$(FakeScript)\" $(FakeTarget) $(FakeArguments)",
             "workingDirectory": "$(WorkingDirectory)"
         }
     }

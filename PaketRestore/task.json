@@ -8,7 +8,7 @@
     "author": "Isaac Abraham",
     "version": {
         "Major": 0,
-        "Minor": 2,
+        "Minor": 3,
         "Patch": 0
     },
     "minimumAgentVersion": "1.83.0",    
@@ -33,7 +33,8 @@
     ],
     "execution": {
         "Process": {
-            "target": "$(currentDirectory)\\Paket.bat $(PaketGroupName)",
+            "target": "$(currentDirectory)\\Paket.bat",
+            "argumentFormat": "$(PaketGroupName)",
             "workingDirectory": "$(PaketBootstrapperPath)"
         }
     }
