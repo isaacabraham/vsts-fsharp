@@ -8,10 +8,10 @@
     "author": "Isaac Abraham",
     "version": {
         "Major": 0,
-        "Minor": 2,
+        "Minor": 3,
         "Patch": 0
     },
-    "minimumAgentVersion": "1.83.0",    
+    "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Execute $(ScriptFile)",
     "inputs": [
         {
@@ -19,7 +19,7 @@
             "type": "filePath",
             "label": ".fsx file path",
             "helpMarkDown": "The path to the .fsx file to execute.",
-            "required":"true"
+            "required": "true"
         },
         {
             "name": "ScriptArguments",
@@ -28,11 +28,19 @@
             "defaultValue": "",
             "required": "false",
             "helpMarkDown": "Other arguments passed to the F# script."
-        }
+        },
+        {
+            "name": "FSharpVersion",
+            "type": "string",
+            "label": "F# Version",
+            "defaultValue": "4.0",
+            "required": "true",
+            "helpMarkDown": "The version of F# to use, used to build the path to fsi.exe."
+        },
     ],
     "execution": {
         "Process": {
-            "target": "C:\\Program Files (x86)\\Microsoft SDKs\\F#\\4.0\\Framework\\v4.0\\fsi.exe",
+            "target": "C:\\Program Files (x86)\\Microsoft SDKs\\F#\\${FSharpVersion}\\Framework\\v4.0\\fsi.exe",
             "argumentFormat": "$(ScriptFile) $(ScriptArguments)"
         }
     }

@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "fsharp-helpers-extension",
-    "version": "1.0.15",
+    "version": "1.0.16",
     "name": "F# Helpers for VSTS",
     "publisher": "IsaacAbraham",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
