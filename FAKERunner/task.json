@@ -53,6 +53,14 @@
             "defaultValue": "",
             "required": "false",
             "helpMarkDown": "Other arguments passed to the FAKE script."
+        },
+        {
+            "name": "failOnStandardError",
+            "type": "boolean",
+            "label": "Fail on Standard Error",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "If this is true, this task will fail if any errors are written to the StandardError stream."
         }
     ],
     "execution": {
