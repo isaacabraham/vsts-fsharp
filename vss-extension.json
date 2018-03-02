@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "fsharp-helpers-extension",
-    "version": "1.0.16",
+    "version": "1.1.0",
     "name": "F# Helpers for VSTS",
     "publisher": "IsaacAbraham",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
@@ -23,7 +23,7 @@
         "theme": "dark"
     },
     "files": [
-        { "path": "FAKERunner" },
+        { "path": "FAKE4Runner" },
         { "path": "PaketRestore" },
         { "path": "FSharpScript" }
     ],
@@ -31,7 +31,7 @@
         {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4339",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
-            "properties": { "name": "FAKERunner" }
+            "properties": { "name": "FAKE4Runner" }
         },
         {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4338",
             "type": "ms.vss-distributed-task.task",

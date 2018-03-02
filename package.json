@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "tfx": "tfx"
+  },
+  "devDependencies": {
+    "tfx-cli": "^0.4.8"
+  }
+}

@@ -9,6 +9,14 @@ useful within the F# world. At the current time, the extension contains the foll
 Tasks
 -----
 
+### Setup Paket Credential Provider
+Use the **Setup Paket Credential Providers** task to setup the required credential manager to access VSTS/TFS internal NuGet feeds within your own build script running paket.
+
+### Paket Crendetial Provider Cleanup
+Cleanup the credential manager to prevent follow-up-tasks to access the internal NuGet feed.
+
+> Note: After the build no other build has access to the credentials - they will be safely cleaned up after the build no matter if you use that task.
+
 ### Paket Restore
 Use the **Paket Restore** task to download the full Paket executable via the Paket Bootstrapper
 that you have committed into source control, and automatically run ```paket restore```. You can
