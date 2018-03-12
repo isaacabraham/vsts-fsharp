@@ -10,12 +10,12 @@ Tasks
 -----
 
 ### Setup Paket Credential Provider
-Use the **Setup Paket Credential Providers** task to setup the required credential manager to access VSTS/TFS internal NuGet feeds within your own build script running paket.
+Use the **Setup Paket Credential Provider** task to setup the required credential manager to access your internal VSTS/TFS NuGet feeds within your own build script running paket.
 
-### Paket Crendetial Provider Cleanup
+### Paket Credential Provider Cleanup
 Cleanup the credential manager to prevent follow-up-tasks to access the internal NuGet feed.
 
-> Note: After the build no other build has access to the credentials - they will be safely cleaned up after the build no matter if you use that task.
+> Note: After the build, no other build has access to the credentials - they will be safely cleaned up after the build no matter if you use that task.
 
 ### Paket Restore
 Use the **Paket Restore** task to download the full Paket executable via the Paket Bootstrapper
