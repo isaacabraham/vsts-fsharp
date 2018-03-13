@@ -1,9 +1,9 @@
 {
     "id": "33416f37-5fe8-488d-a2aa-48f52e7a14f9",
     "name": "paketCredentialCleanup",
-    "friendlyName": "Paket credential manager cleanup",
-    "description": "Cleanup credentials provided temporarily for the paket credential manager.",
-    "helpMarkDown": "This task removes the credential from the following build steps.",
+    "friendlyName": "Paket Credential Manager cleanup",
+    "description": "Removes credentials provided by the Paket Credential Manager.",
+    "helpMarkDown": "This task removes credentials created by the Paket Credential Manager from any further build steps.",
     "category": "Utility",
     "author": "Matthias Dittrich",
     "version": {
@@ -11,7 +11,7 @@
         "Minor": 1,
         "Patch": 0
     },
-    "instanceNameFormat": "Paket credential manager cleanup",
+    "instanceNameFormat": "Cleanup Paket credential manager",
     "groups": [
     ],
     "inputs": [
