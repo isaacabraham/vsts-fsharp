@@ -36,7 +36,7 @@
             "defaultValue": "4.0",
             "required": "true",
             "helpMarkDown": "The version of F# to use, used to build the path to fsi.exe."
-        },
+        }
     ],
     "execution": {
         "Process": {

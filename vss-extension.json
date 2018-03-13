@@ -48,12 +48,12 @@
         {   "id": "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
-            "properties": { "name": "setCredentialManager" }
+            "properties": { "name": "SetPaketCredentialProvider.dev" }
         },
         {   "id": "33416f37-5fe8-488d-a2aa-48f52e7a14f9",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
-            "properties": { "name": "paketCredentialCleanup" }
+            "properties": { "name": "PaketCredentialCleanup.dev" }
         }                
     ]
 }
