@@ -6,6 +6,8 @@ Introduction
 This extension contains build tasks for use within VSTS Team Build that are particularly
 useful within the F# world. At the current time, the extension contains the following tasks.
 
+Contributors: @isaacabraham, @matthid.
+
 Tasks
 -----
 

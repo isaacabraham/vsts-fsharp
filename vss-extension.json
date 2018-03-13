@@ -25,7 +25,9 @@
     "files": [
         { "path": "FAKE4Runner" },
         { "path": "PaketRestore" },
-        { "path": "FSharpScript" }
+        { "path": "FSharpScript" },
+        { "path": "SetPaketCredentialProvider.dev" },
+        { "path": "PaketCredentialCleanup.dev" }
     ],
     "contributions": [
         {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4339",
@@ -42,6 +44,16 @@
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
             "properties": { "name": "FSharpScript" }
-        }
+        },
+        {   "id": "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "setCredentialManager" }
+        },
+        {   "id": "33416f37-5fe8-488d-a2aa-48f52e7a14f9",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "paketCredentialCleanup" }
+        }                
     ]
 }
