@@ -231,10 +231,10 @@ Target.Create "NpmInstall" (fun _ ->
 
 Target.Create "CompileCredentialManager" (fun _ ->
     Shell.CleanDir "SetPaketCredentialProvider.dev/CredentialProvider"
-    Cli.DotNetPublish (fun c ->
+    DotNet.Publish (fun c ->
         { c with
             Runtime = None
-            Configuration = Cli.Release
+            Configuration = DotNet.Release
             OutputPath = Some (Path.GetFullPath "SetPaketCredentialProvider.dev/CredentialProvider")
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
 )
