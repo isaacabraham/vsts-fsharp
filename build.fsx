@@ -11,7 +11,7 @@
 nuget FSharp.Core
 nuget Fake.Core.Process prerelease
 nuget Fake.IO.FileSystem prerelease
-nuget Fake.Core.Targets prerelease
+nuget Fake.Core.Target prerelease
 nuget Fake.DotNet.Cli prerelease
 nuget Fake.Core.Environment prerelease
 //"
@@ -64,13 +64,13 @@ module Util =
         let fileName, args =
             if Environment.isUnix
             then fileName, args else "cmd", ("/C " + fileName + " " + args)
-        let ok =
-            Process.execProcess (fun info ->
+        let exitCode =
+            Process.execSimple (fun info ->
                 { info with
                     FileName = fileName
                     WorkingDirectory = workingDir
                     Arguments = args }) TimeSpan.MaxValue
-        if not ok then failwith (sprintf "'%s> %s %s' task failed" workingDir fileName args)
+        if exitCode <> 0 then failwith (sprintf "'%s> %s %s' task failed with code %d" workingDir fileName args exitCode)
 
     let start workingDir fileName args =
         let p = new System.Diagnostics.Process()
@@ -85,7 +85,7 @@ module Util =
         let fileName, args =
             if Environment.isUnix
             then fileName, args else "cmd", ("/C " + args)
-        Process.ExecProcessAndReturnMessages (fun info ->
+        Process.execWithResult (fun info ->
             { info with
                 FileName = fileName
                 WorkingDirectory = workingDir
@@ -209,11 +209,11 @@ let asDevel d =
     let devDir = d + ".dev"
     if Directory.Exists devDir then devDir else d
 
-Target.Create "Clean" (fun _ -> ())
+Target.create "Clean" (fun _ -> ())
 
 open Fake.IO.FileSystemOperators
 
-Target.Create "NpmInstall" (fun _ ->
+Target.create "NpmInstall" (fun _ ->
     Npm.install "." []
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
@@ -229,9 +229,9 @@ Target.Create "NpmInstall" (fun _ ->
 //    Shell.cp_r ".fake/build.fsx/packages/NuGet.CommandLine/tools" "CreateSignedPackages.dev/bin/NuGet"
 //)
 
-Target.Create "CompileCredentialManager" (fun _ ->
+Target.create "CompileCredentialManager" (fun _ ->
     Shell.CleanDir "SetPaketCredentialProvider.dev/CredentialProvider"
-    DotNet.Publish (fun c ->
+    DotNet.publish (fun c ->
         { c with
             Runtime = None
             Configuration = DotNet.Release
@@ -239,13 +239,13 @@ Target.Create "CompileCredentialManager" (fun _ ->
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
 )
 
-Target.Create "Compile" (fun _ ->
+Target.create "Compile" (fun _ ->
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
             Npm.script dir "tsc" []
 )
 
-Target.Create "Bundle" (fun _ ->
+Target.create "Bundle" (fun _ ->
     // Workaround for not having an "exclude" feature...
     for dir in dirs do
         let devel = asDevel dir
@@ -257,7 +257,7 @@ Target.Create "Bundle" (fun _ ->
     Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "vss-extension.json"]
 )
 
-Target.Create "Default" (fun _ -> ())
+Target.create "Default" (fun _ -> ())
 
 "Clean"
     ==> "NpmInstall"
@@ -267,4 +267,4 @@ Target.Create "Default" (fun _ -> ())
     ==> "Bundle"
     ==> "Default"
 
-Target.RunOrDefault "Default"
+Target.runOrDefault "Default"
