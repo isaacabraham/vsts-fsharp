@@ -41,7 +41,7 @@
     "execution": {
         "Process": {
             "target": "C:\\Program Files (x86)\\Microsoft SDKs\\F#\\$(FSharpVersion)\\Framework\\v4.0\\fsi.exe",
-            "argumentFormat": "$(ScriptFile) $(ScriptArguments)"
+            "argumentFormat": "\"$(ScriptFile)\" $(ScriptArguments)"
         }
     }
 }
