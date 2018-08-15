@@ -1,5 +1,5 @@
 @ECHO OFF
-paket.bootstrapper.exe
+if exist paket.bootstrapper.exe paket.bootstrapper.exe
 if "%1"=="" goto BLANK
 
 paket.exe restore group %1
