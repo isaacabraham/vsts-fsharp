@@ -14,6 +14,8 @@ Tasks
 ### Setup Paket Credential Provider
 Use the **Setup Paket Credential Provider** task to setup the required credential manager to access your internal VSTS/TFS NuGet feeds within your own build script running paket.
 
+> Note: For this task to work correctly you need to have the dotnet SDK installed on your agent (or installed via "DotNet Install" task).
+
 ### Paket Credential Provider Cleanup
 Cleanup the credential manager to prevent follow-up-tasks to access the internal NuGet feed.
 
