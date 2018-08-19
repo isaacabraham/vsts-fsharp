@@ -8,18 +8,18 @@
     "author": "Isaac Abraham",
     "version": {
         "Major": 0,
-        "Minor": 3,
+        "Minor": 4,
         "Patch": 0
     },
     "minimumAgentVersion": "1.83.0",    
     "instanceNameFormat": "Restore Paket dependencies",
     "inputs": [
         {
-            "name": "PaketBootstrapperPath",
+            "name": "PaketPath",
             "type": "filePath",
-            "label": "Path to Paket Bootstrapper",
+            "label": "Path to Paket",
             "defaultValue":".paket",
-            "helpMarkDown": "The folder that contains the Paket Bootstrapper",
+            "helpMarkDown": "The folder that contains Paket (with the optional bootstrapper).",
             "required":"true"
         },
         {
@@ -35,7 +35,7 @@
         "Process": {
             "target": "$(currentDirectory)\\Paket.bat",
             "argumentFormat": "$(PaketGroupName)",
-            "workingDirectory": "$(PaketBootstrapperPath)"
+            "workingDirectory": "$(PaketPath)"
         }
     }
 }
