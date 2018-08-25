@@ -15,11 +15,11 @@
     "instanceNameFormat": "Restore Paket dependencies",
     "inputs": [
         {
-            "name": "PaketBootstrapperPath",
+            "name": "PaketPath",
             "type": "filePath",
-            "label": "Path to Paket Bootstrapper",
+            "label": "Path to Paket",
             "defaultValue":".paket",
-            "helpMarkDown": "The folder that contains the Paket Bootstrapper",
+            "helpMarkDown": "The folder that contains Paket (with the optional bootstrapper).",
             "required":"true"
         },
         {
