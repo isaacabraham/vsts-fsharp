@@ -204,7 +204,7 @@ module Node =
 
 open Fake.Core
 open Fake.Core.TargetOperators
-let dirs = ["PaketCredentialCleanup";"SetPaketCredentialProvider";"FSharpScript"; "FAKE4Runner"; "PaketRestore"]
+let dirs = ["PaketCredentialCleanup";"SetPaketCredentialProvider";"FSharpScript"; "FAKE4Runner"; "PaketRestore"; "FAKE5"]
 let asDevel d = 
     let devDir = d + ".dev"
     if Directory.Exists devDir then devDir else d

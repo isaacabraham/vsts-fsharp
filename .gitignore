@@ -36,6 +36,7 @@ publish.bat
 node_modules
 SetPaketCredentialProvider.dev/CredentialProvider/
 SetPaketCredentialProvider/
+FAKE5/
 PaketCredentialCleanup/
 PaketRestore/
 /.vs

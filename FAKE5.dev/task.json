@@ -3,7 +3,7 @@
     "name": "FAKE5Runner",
     "friendlyName": "FAKE 5 Runner",
     "description": "Runs a FAKE 5 build script.",
-    "helpMarkDown": "This task executes the FAKE 5 build script specified.",
+    "helpMarkDown": "This task downloads and caches the FAKE runner and executes the FAKE 5 build script specified.",
     "category": "Build",
     "author": "Matthias Dittrich",
     "version": {
@@ -22,6 +22,14 @@
 	],
     "inputs": [
         {
+            "name": "FakeVersion",
+            "type": "string",
+            "label": "Version of FAKE to download and use",
+            "defaultValue": "5.5.0",
+            "helpMarkDown": "The version of the fake runner to use. Needs to be >= 5 and this has no effect on the package versions your script uses.",
+            "required": "true"
+        },
+        {
             "name": "FakeScript",
             "type": "filePath",
             "label": "Path to FAKE script",
@@ -30,20 +38,21 @@
             "required": "true"
         },
         {
-            "name": "WorkingDirectory",
-            "type": "filePath",
-            "label": "Working Directory",
-            "defaultValue":"",
-            "helpMarkDown": "The working directory (defaults to the path of the script).",
-            "required":"false"
-        },
-        {
             "name": "ScriptArguments",
             "type": "string",
             "label": "The command line arguments for the script",
             "defaultValue": "",
             "helpMarkDown": "For example enter '-s target Build' to run a single target called build.",
             "required": "false"
+        },
+        {
+            "name": "WorkingDirectory",
+			"groupName": "advanced",
+            "type": "filePath",
+            "label": "Working Directory",
+            "defaultValue":"",
+            "helpMarkDown": "The working directory (defaults to the path of the script).",
+            "required":"false"
         },
         {
             "name": "PreventSecrets",

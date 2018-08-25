@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tl = require("vsts-task-lib/task");
+const common = require("vsts-fsharp-task-common");
 function exitWithError(message, exitCode) {
     tl.error(message);
     tl.setResult(tl.TaskResult.Failed, message);
@@ -17,7 +18,7 @@ function exitWithError(message, exitCode) {
 function doMain() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            tl.setVariable("PAKET_VSS_NUGET_ACCESSTOKEN", "");
+            common.cleanupPaketCredentialManager();
         }
         catch (e) {
             exitWithError(e.message, 1);
