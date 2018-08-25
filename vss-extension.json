@@ -23,6 +23,7 @@
         "theme": "dark"
     },
     "files": [
+        { "path": "FAKE5" },
         { "path": "FAKE4Runner" },
         { "path": "PaketRestore" },
         { "path": "FSharpScript" },
@@ -30,6 +31,11 @@
         { "path": "PaketCredentialCleanup" }
     ],
     "contributions": [
+        {   "id": "a2dadf20-1a83-4220-a4ee-b52f6c77f3cf",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE5" }
+        },
         {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4339",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
@@ -54,6 +60,6 @@
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
             "properties": { "name": "PaketCredentialCleanup" }
-        }                
+        }
     ]
 }

@@ -1,14 +1,13 @@
 
 // This is a defensive copy from https://raw.githubusercontent.com/Microsoft/vsts-task-lib/91e03a14f1188edc658954320f9d75565b2d1da5/node/vault.ts
 // To save ourself from breaking changes...
-// Add some members for retrieving the decrypted value.
+// Add some members for retrieving the decrypted value and use IV.
 
 import Q = require('q');
 import fs = require('fs');
 import path = require('path');
 import crypto = require('crypto');
 
-var uuidV4 = require('uuid/v4');
 var algorithm = "aes-256-ctr";
 
 //
@@ -21,12 +20,12 @@ var algorithm = "aes-256-ctr";
 export class Vault {
     constructor(keyFile: string) {
         this._keyFile = keyFile;
-        this._store = <{[key: string] : string}>{};
         this.genKey();
+        this._iv = crypto.randomBytes(16);
     }
 
     private _keyFile: string;
-    private _store: { [key: string] : string };
+    private _iv: Buffer;
 
     public initialize(): void {
 
@@ -34,63 +33,23 @@ export class Vault {
 
     public encryptSecret(data: string) : string {
         var key = this.getKey();
-        var cipher = crypto.createCipher(algorithm, key);
-        var crypted = cipher.update(data,'utf8','hex')
-        crypted += cipher.final('hex');
+        var cipher = crypto.createCipheriv(algorithm, key, this._iv);
+        var crypted = cipher.update(data,'utf8','base64')
+        crypted += cipher.final('base64');
         return crypted;
     }
 
-    public storeSecret(name: string, data: string): boolean {
-        if (!name || name.length == 0) {
-            return false;
-        }
-
-        name = name.toLowerCase()
-        if (!data || data.length == 0) {
-            if (this._store.hasOwnProperty(name)) {
-                delete this._store[name];
-            }
-
-            return false;
-        }
-
-        this._store[name] = this.encryptSecret(data);
-        return true;
-    }
-    
-    public retrieveDecrypted(name: string): string {
-        var val = null;
-        name = (name || '').toLowerCase()
-
-        if (this._store.hasOwnProperty(name)) {
-            val = this._store[name];
-        }
-
-        return val;
+    public retrieveIVBase64(): string {
+        return this._iv.toString('base64');
     }
 
-    public retrieveSecret(name: string): string {
-        var secret = null;
-        name = (name || '').toLowerCase()
-
-        if (this._store.hasOwnProperty(name)) {
-            var key = this.getKey();
-            var data = this._store[name];
-            var decipher = crypto.createDecipher(algorithm, key)
-            var dec = decipher.update(data,'hex','utf8')
-            dec += decipher.final('utf8');
-            secret = dec;
-        }
-
-        return secret;
-    }
-
-    private getKey()
-    {
-        return fs.readFileSync(this._keyFile).toString('utf8');
+    private getKey() {
+        let readData = fs.readFileSync(this._keyFile, 'utf8');
+        return Buffer.from(readData, 'base64');
     }
 
     private genKey(): void {
-        fs.writeFileSync(this._keyFile, uuidV4(), 'utf8');
+        let base64String = crypto.randomBytes(32).toString('base64');
+        fs.writeFileSync(this._keyFile, base64String, 'utf8');
     } 
 }

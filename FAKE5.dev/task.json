@@ -1,6 +1,6 @@
 {
-    "id": "8c0646b8-115f-4da5-a767-728de601b128",
-    "name": "FAKE5Runner",
+    "id": "a2dadf20-1a83-4220-a4ee-b52f6c77f3cf",
+    "name": "FAKE5",
     "friendlyName": "FAKE 5 Runner",
     "description": "Runs a FAKE 5 build script.",
     "helpMarkDown": "This task downloads and caches the FAKE runner and executes the FAKE 5 build script specified.",
@@ -11,6 +11,12 @@
         "Minor": 0,
         "Patch": 0
     },
+    "demands": [
+        "DotNetCore"
+    ],
+    "satisfies": [
+        "Fake"
+    ],
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Execute the $(FakeScript) FAKE 5 script",
 	"groups": [
@@ -25,7 +31,7 @@
             "name": "FakeVersion",
             "type": "string",
             "label": "Version of FAKE to download and use",
-            "defaultValue": "5.5.0",
+            "defaultValue": "5.4.1",
             "helpMarkDown": "The version of the fake runner to use. Needs to be >= 5 and this has no effect on the package versions your script uses.",
             "required": "true"
         },
@@ -70,6 +76,15 @@
             "label": "Set the complete fake command line",
             "defaultValue": "",
             "helpMarkDown": "For example enter 'run build.fsx -s target Build' to run a single target called build. This replaces 'Path to FAKE script' and 'The command line arguments for the script'",
+            "required": "false"
+        },
+        {
+            "name": "FailOnStdError",
+			"groupName": "advanced",
+            "type": "boolean",
+            "label": "Fail on standard error output.",
+            "defaultValue": "false",
+            "helpMarkDown": "Fail the build if something is printed to the standard-error stream.",
             "required": "false"
         }
     ],
