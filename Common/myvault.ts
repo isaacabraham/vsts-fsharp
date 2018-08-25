@@ -3,9 +3,7 @@
 // To save ourself from breaking changes...
 // Add some members for retrieving the decrypted value and use IV.
 
-import Q = require('q');
 import fs = require('fs');
-import path = require('path');
 import crypto = require('crypto');
 
 var algorithm = "aes-256-ctr";
@@ -50,6 +48,6 @@ export class Vault {
 
     private genKey(): void {
         let base64String = crypto.randomBytes(32).toString('base64');
-        fs.writeFileSync(this._keyFile, base64String, 'utf8');
+        fs.writeFileSync(this._keyFile, base64String, { encoding: 'utf8' });
     } 
 }

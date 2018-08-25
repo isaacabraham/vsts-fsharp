@@ -37,6 +37,7 @@ node_modules
 SetPaketCredentialProvider.dev/CredentialProvider/
 SetPaketCredentialProvider/
 FAKE5/
+FAKE5Vault/
 PaketCredentialCleanup/
 PaketRestore/
 /.vs

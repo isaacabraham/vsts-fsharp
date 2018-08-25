@@ -1,6 +1,6 @@
 {
   "name": "vsts-fsharp-task-common",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "VSTS F# Helper Tasks Common",
   "main": "common.js",
   "scripts": {
@@ -8,11 +8,14 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.11",
+    "semver": "^5.5.1",
     "tmp": "0.0.31",
-    "vsts-task-lib": "^2.0.2-preview"
+    "typed-rest-client": "^1.0.9",
+    "vsts-task-lib": "^2.6.0",
+    "vsts-task-tool-lib": "^0.10.0"
   },
   "devDependencies": {
     "@types/node": "^7.0.12",
-    "typescript": "^2.3.2"
+    "typescript": "^2.9.2"
   }
 }
