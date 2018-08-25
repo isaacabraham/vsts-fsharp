@@ -24,6 +24,8 @@ open System.IO
 open System.Collections.Generic
 open Fake.Core
 open Fake.IO
+open Fake.IO.FileSystemOperators
+open Fake.IO.Globbing.Operators
 open Fake.DotNet
 
 
@@ -209,9 +211,9 @@ let asDevel d =
     let devDir = d + ".dev"
     if Directory.Exists devDir then devDir else d
 
-Target.create "Clean" (fun _ -> ())
-
-open Fake.IO.FileSystemOperators
+Target.create "Clean" (fun _ ->
+    Shell.CleanDir "_build"
+)
 
 Target.create "NpmInstall" (fun _ ->
     Npm.install "." []
@@ -239,6 +241,21 @@ Target.create "CompileCredentialManager" (fun _ ->
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
 )
 
+Target.create "Common" (fun _ ->
+
+    Npm.install "Common" []
+    Npm.script "Common" "tsc" []
+    Npm.command "Common" "pack" []
+
+    Directory.ensure "_build"
+    !! "Common/vsts-fsharp-task-common-*.tgz"
+    |> Seq.iter (fun file ->
+        let name = Path.GetFileName(file)
+        File.Copy(file, "_build" </> name, true)
+        File.Delete(file))
+)
+
+
 Target.create "Compile" (fun _ ->
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
@@ -260,6 +277,7 @@ Target.create "Bundle" (fun _ ->
 Target.create "Default" (fun _ -> ())
 
 "Clean"
+    ==> "Common"
     ==> "NpmInstall"
     //==> "PrepareBinaries"
     ==> "Compile"
