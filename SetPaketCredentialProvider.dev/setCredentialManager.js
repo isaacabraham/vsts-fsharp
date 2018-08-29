@@ -9,8 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const tl = require("vsts-task-lib/task");
-const tmp = require("tmp");
-const path = require("path");
+const common = require("vsts-fsharp-task-common");
 function exitWithError(message, exitCode) {
     tl.error(message);
     tl.setResult(tl.TaskResult.Failed, message);
@@ -19,28 +18,7 @@ function exitWithError(message, exitCode) {
 function doMain() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            tmp.setGracefulCleanup();
-            let credentialProviderPath = path.join(__dirname, "CredentialProvider");
-            var tmpDir = tmp.dirSync();
-            var cwd = process.cwd();
-            var isDebug = process.env.DEBUG == "true";
-            var requireWhenRelease = true;
-            if (isDebug) {
-                requireWhenRelease = false;
-            }
-            var orig = process.env["NUGET_CREDENTIALPROVIDERS_PATH"];
-            var newCredPath = credentialProviderPath;
-            if (orig) {
-                newCredPath = newCredPath + ";" + orig;
-            }
-            tl.setVariable("NUGET_CREDENTIALPROVIDERS_PATH", newCredPath);
-            let auth = tl.getEndpointAuthorization("SYSTEMVSSCONNECTION", false);
-            if (auth.scheme === "OAuth") {
-                tl.setVariable("PAKET_VSS_NUGET_ACCESSTOKEN", auth.parameters["AccessToken"]);
-            }
-            else {
-                tl.warning("Could not determine credentials to use for NuGet");
-            }
+            yield common.setupPaketCredentialManager();
         }
         catch (e) {
             exitWithError(e.message, 1);

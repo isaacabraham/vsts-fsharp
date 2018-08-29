@@ -30,9 +30,15 @@ _ReSharper*/
 *.vsix
 publish.bat
 
+*.js
+
 .fake
 node_modules
 SetPaketCredentialProvider.dev/CredentialProvider/
 SetPaketCredentialProvider/
+FAKE5/
+FAKE5Vault/
 PaketCredentialCleanup/
+PaketRestore/
 /.vs
+_build

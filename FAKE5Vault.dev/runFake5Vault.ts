@@ -12,7 +12,11 @@ function exitWithError(message, exitCode) {
 
 async function doMain() {
   try {
-    await common.setupPaketCredentialManager();
+    let secretFilePath = tl.getPathInput("SecretFile", true);
+    let preventSecrets = !tl.getBoolInput("IncludeSecrets");
+    let varName = tl.getInput("VariableName");
+    let json = common.createFakeVariablesJson(secretFilePath, preventSecrets);
+    tl.setVariable(varName, json);
   } catch (e) {
     exitWithError(e.message, 1);
   }

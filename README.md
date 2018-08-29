@@ -26,6 +26,11 @@ Use the **Paket Restore** task to download the full Paket executable via the Pak
 that you have committed into source control, and automatically run ```paket restore```. You can
 override the location of the bootstrapper, but this defaults to the ```.paket``` folder.
 
+### FAKE 5 Runner
+Use the **FAKE 5 Runner** task to execute any FAKE 5 script in the repository. This task downloads
+and caches the given FAKE 5 version. In addition to the path of the FAKE script, you can supply 
+an optional target as well as any other arbitrary arguments that are required.
+
 ### FAKE Runner
 Use the **FAKE Runner** task to execute any FAKE script in the repository. This task assumes that
 the FAKE executable is located at ```packages\Fake\tools\Fake.exe```. In addition to the path of

@@ -6,6 +6,7 @@ import * as fs from "fs";
 import * as os from "os";
 import * as tmp from "tmp";
 import * as path from "path";
+import * as common from "vsts-fsharp-task-common";
 import { IExecOptions } from "vsts-task-lib/toolrunner";
 
 function exitWithError(message, exitCode) {
@@ -16,7 +17,7 @@ function exitWithError(message, exitCode) {
 
 async function doMain() {
   try {
-    tl.setVariable("PAKET_VSS_NUGET_ACCESSTOKEN", "");
+    common.cleanupPaketCredentialManager();
   } catch (e) {
     exitWithError(e.message, 1);
   }
