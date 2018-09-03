@@ -278,6 +278,11 @@ Target.create "Bundle" (fun _ ->
     Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "ext-paket.json"]
 )
 
+Target.create "Publish" (fun _ ->
+    let token = Environment.environVarOrFail "vsts-token"
+    Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--manifests"; "vss-extension.json" ]
+    )
+
 Target.create "Default" (fun _ -> ())
 
 "Clean"
@@ -288,5 +293,8 @@ Target.create "Default" (fun _ -> ())
     ==> "CompileCredentialManager"
     ==> "Bundle"
     ==> "Default"
+
+"Bundle"
+    ==> "Publish"
 
 Target.runOrDefault "Default"
