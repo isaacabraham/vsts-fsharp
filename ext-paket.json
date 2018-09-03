@@ -1,0 +1,47 @@
+{
+    "manifestVersion": 1,
+    "id": "paket",
+    "version": "1.0.0",
+    "name": "Paket Tasks for VSTS",
+    "publisher": "IsaacAbraham",
+    "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
+    "description": "Manage your NuGet packages with the paket client.",
+    "public":  true,
+    "categories": [ "Build and release" ],
+    "icons": { "default": "PaketRestore.dev\\icon.png" },
+    "tags": [ "F#", "Paket", "NuGet", "Packages", "Paket" ],
+    "screenshots": [
+        { "path": "content\\images\\1.png" },
+        { "path": "content\\images\\2.png" }
+    ],
+    "content": { "details": { "path": "readme.md" } },
+    "links" : {
+        "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
+    },
+    "branding": {
+        "color": "rgb(51,51,51)",
+        "theme": "dark"
+    },
+    "files": [
+        { "path": "PaketRestore" },
+        { "path": "SetPaketCredentialProvider" },
+        { "path": "PaketCredentialCleanup" }
+    ],
+    "contributions": [
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4338",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "PaketRestore" }
+        },
+        {   "id": "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "SetPaketCredentialProvider" }
+        },
+        {   "id": "33416f37-5fe8-488d-a2aa-48f52e7a14f9",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "PaketCredentialCleanup" }
+        }
+    ]
+}

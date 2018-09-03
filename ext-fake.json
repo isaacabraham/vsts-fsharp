@@ -1,0 +1,41 @@
+{
+    "manifestVersion": 1,
+    "id": "fake-build",
+    "version": "1.0.0",
+    "name": "FAKE Build & Release Tasks for VSTS",
+    "publisher": "IsaacAbraham",
+    "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
+    "description": "Automate your build and release process alongside your code with the power of .NET",
+    "public":  true,
+    "categories": [ "Build and release" ],
+    "icons": { "default": "FAKE5.dev\\icon.png" },
+    "tags": [ "F#", "FAKE", "FAKE5", "Build", "Release", "Automation", "Scripting" ],
+    "screenshots": [
+        { "path": "content\\images\\1.png" },
+        { "path": "content\\images\\2.png" }
+    ],
+    "content": { "details": { "path": "readme.md" } },
+    "links" : {
+        "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
+    },
+    "branding": {
+        "color": "rgb(51,51,51)",
+        "theme": "dark"
+    },
+    "files": [
+        { "path": "FAKE5" },
+        { "path": "FAKE5Vault" }
+    ],
+    "contributions": [
+        {   "id": "26d2a628-d5fe-4d5a-943d-33c78b2d76f3",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE5Vault" }
+        },
+        {   "id": "a2dadf20-1a83-4220-a4ee-b52f6c77f3cf",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE5" }
+        }
+    ]
+}

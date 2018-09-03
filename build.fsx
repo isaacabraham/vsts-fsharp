@@ -274,6 +274,8 @@ Target.create "Bundle" (fun _ ->
     // delete stuff we don't want
 
     Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "vss-extension.json"]
+    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "ext-fake.json"]
+    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "ext-paket.json"]
 )
 
 Target.create "Default" (fun _ -> ())
