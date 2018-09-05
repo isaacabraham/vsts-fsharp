@@ -32,6 +32,8 @@ open Fake.DotNet
 open System.Net.Http
 open System.Collections.Generic
 
+let publisher = Environment.environVarOrDefault "PUBLISHER" "IsaacAbraham"
+
 module Util =
     open System.Net
 
@@ -264,6 +266,16 @@ Target.create "Compile" (fun _ ->
             Npm.script dir "tsc" []
 )
 
+type ExtensionReplacement =
+    { NamePostfix : string
+      IdPostfix : string
+      Public : bool }
+    member x.AsList =
+        [ "{Name-Postfix}", x.NamePostfix
+          "{ID-Postfix}", x.IdPostfix
+          "\"{PublicFlag}\"", x.Public.ToString().ToLowerInvariant()
+          "{Publisher}", publisher ]
+
 Target.create "Bundle" (fun _ ->
     // Workaround for not having an "exclude" feature...
     for dir in dirs do
@@ -273,9 +285,24 @@ Target.create "Bundle" (fun _ ->
             Shell.cp_r devel dir
     // delete stuff we don't want
 
-    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "vss-extension.json"]
-    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "ext-fake.json"]
-    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "ext-paket.json"]
+    let exts = [ "all";"fake"; "paket"]
+    let replacements = 
+        [ { NamePostfix = ""; IdPostfix = ""; Public = true }
+          { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } ]
+    for ext in exts do
+        for repl in replacements do
+            let sourceName = sprintf "ext-%s.json" ext
+            let targetName = sprintf "ext-%s%s.temp.json" ext repl.IdPostfix
+            
+            (File.ReadAllText(sourceName), repl.AsList)
+            ||> Seq.fold (fun state (template, replacement) ->
+                state.Replace(template, replacement))
+            |> fun text -> File.WriteAllText(targetName, text)            
+                
+            Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
+
+    
+
 )
 
 Target.create "Publish" (fun _ ->

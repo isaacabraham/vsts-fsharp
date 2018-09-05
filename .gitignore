@@ -30,6 +30,7 @@ _ReSharper*/
 *.vsix
 publish.bat
 
+*.temp.json
 *.js
 
 .fake
