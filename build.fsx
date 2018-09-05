@@ -169,6 +169,11 @@ module Npm =
         // On windows, retry npm install to avoid bug related to https://github.com/npm/npm/issues/9696
         Util.retryIfFails (if Environment.isWindows then 3 else 0) npmInstall
 
+    let prune workingDir isProd =
+        // https://docs.npmjs.com/cli/prune
+        sprintf "prune %s" (if isProd then "--production" else "--no-production")
+        |> Util.run workingDir "npm"
+
     let command workingDir command args =
         sprintf "%s %s" command (String.concat " " args)
         |> Util.run workingDir "npm"
@@ -284,6 +289,13 @@ Target.create "Bundle" (fun _ ->
             Shell.CleanDir dir
             Shell.cp_r devel dir
     // delete stuff we don't want
+    
+    // cleanup node_modules to only contain --production dependencies
+    for dir in dirs do
+        if File.Exists (dir </> "package.json") then
+            Npm.prune dir true
+
+
 
     let exts = [ "all";"fake"; "paket"]
     let replacements = 
