@@ -228,7 +228,11 @@ Target.create "NpmInstall" (fun _ ->
     Npm.install "." []
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
-            Npm.install dir []
+            try Npm.install dir []
+            with _ ->
+                printfn "npm install failed, trying to delete the lockfile"
+                File.Delete (dir </> "package-lock.json")
+                Npm.install dir []        
 )
 
 //Target "PrepareBinaries" (fun _ ->
@@ -295,7 +299,7 @@ Target.create "Bundle" (fun _ ->
         if File.Exists (dir </> "package.json") then
             Npm.prune dir true
 
-    let exts = [ "all";"fake"; "paket"]
+    let exts = [ "fsharp-helpers-extension";"fake-build"; "paket"]
     let replacements = 
         [ { NamePostfix = ""; IdPostfix = ""; Public = true }
           { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } ]
@@ -316,8 +320,28 @@ Target.create "Bundle" (fun _ ->
 )
 
 Target.create "Publish" (fun _ ->
-    let token = Environment.environVarOrFail "vsts-token"
-    Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--manifests"; "vss-extension.json" ]
+    let token =
+        match Environment.environVarOrNone "vsts-token" with
+        | Some tok -> tok
+        | None -> Environment.environVarOrFail "VSTS_TOKEN"
+    let publishPrivate = Boolean.Parse(Environment.environVarOrDefault "publishPrivate" "false")
+
+    let exts = [ "fsharp-helpers-extension"; "fake-build"; "paket"]
+    let repl =
+        if publishPrivate
+        then { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } 
+        else { NamePostfix = ""; IdPostfix = ""; Public = true }
+    
+    for ext in exts do
+        let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
+        let vsixFile =
+           !! (sprintf "%s*.vsix" prefix)
+           |> Seq.filter (fun file -> 
+                let name = Path.GetFileName(file)
+                not <| name.Substring(prefix.Length).Contains("-"))
+           |> Seq.exactlyOne
+   
+        Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--vsix"; vsixFile ]
     )
 
 Target.create "Default" (fun _ -> ())
