@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "paket{ID-Postfix}",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "name": "Paket Tasks for VSTS{Name-Postfix}",
     "publisher": "{Publisher}",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],

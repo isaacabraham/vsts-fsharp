@@ -9,7 +9,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 2
     },
     "demands": [
         "DotNetCore"
@@ -48,7 +48,7 @@
             "type": "string",
             "label": "The command line arguments for the script",
             "defaultValue": "",
-            "helpMarkDown": "For example enter '-s target Build' to run a single target called build.",
+            "helpMarkDown": "For example enter '--parallel 3 target Build' or '-t Build' to run a target called 'Build'. Enter '-s target Build' to run a target without dependencies.",
             "required": "false"
         },
         {
@@ -66,7 +66,7 @@
             "type": "boolean",
             "label": "Prevent script to access secret variables",
             "defaultValue": false,
-            "helpMarkDown": "You can prevent the script from being able to access all secret variables. To forward single ",
+            "helpMarkDown": "You can prevent the script from being able to access all secret variables. To forward single secret variables just use the -e switch to set environment variables.",
             "required": "false"
         },
         {

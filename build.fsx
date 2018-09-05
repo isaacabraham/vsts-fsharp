@@ -299,6 +299,11 @@ Target.create "Bundle" (fun _ ->
         if File.Exists (dir </> "package.json") then
             Npm.prune dir true
 
+    // delete existing vsix files
+    !! "*.vsix"
+    |> Seq.iter File.Delete
+
+    // Bundle vsix files
     let exts = [ "fsharp-helpers-extension";"fake-build"; "paket"]
     let replacements = 
         [ { NamePostfix = ""; IdPostfix = ""; Public = true }

@@ -33,6 +33,9 @@ publish.bat
 *.temp.json
 *.js
 
+[rR]elease.sh
+[rR]elease.cmd
+
 .fake
 node_modules
 SetPaketCredentialProvider.dev/CredentialProvider/

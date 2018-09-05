@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
     "id": "fake-build{ID-Postfix}",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "name": "FAKE Build & Release Tasks for VSTS{Name-Postfix}",
     "publisher": "{Publisher}",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],

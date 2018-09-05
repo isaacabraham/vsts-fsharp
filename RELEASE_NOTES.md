@@ -1,3 +1,7 @@
+# 1.3.2
+
+* Fix various bugs in the FAKE runner.
+
 # 1.3.0
 
 * Added a native FAKE 5 runner tasks
