@@ -295,8 +295,6 @@ Target.create "Bundle" (fun _ ->
         if File.Exists (dir </> "package.json") then
             Npm.prune dir true
 
-
-
     let exts = [ "all";"fake"; "paket"]
     let replacements = 
         [ { NamePostfix = ""; IdPostfix = ""; Public = true }
@@ -312,7 +310,7 @@ Target.create "Bundle" (fun _ ->
             |> fun text -> File.WriteAllText(targetName, text)            
                 
             Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
-
+            File.Delete(targetName)
     
 
 )
