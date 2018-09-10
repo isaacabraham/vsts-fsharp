@@ -16,7 +16,7 @@ There are some smaller extensions you can install instead of this one:
 - [FAKE Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fake-build)
 - [Paket Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.paket)
 
-these are not not compatible with the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) extension (ie they cannot be installed at the same time). You can either install the "F# Helpers for Azure DevOps" extension for an all-in-one solution or any combination of the smaller ones. You can switch back and forth between the all-in-one and subset-packages any time by uninstalling the extensions. Your existing build and release processes will continue to work.
+it is not recommeded to install these together with the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) extension (ie they should not be installed at the same time). You can either install the "F# Helpers for Azure DevOps" extension for an all-in-one solution or any combination of the smaller ones. You can switch back and forth between the all-in-one and subset-packages any time by uninstalling the extensions. Your existing build and release processes will continue to work, but might no longer receive updates for already used tasks!
 
 Tasks
 -----

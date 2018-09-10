@@ -10,7 +10,7 @@ Contributors: @isaacabraham, @matthid.
 Note
 -----
 
-The extension [Paket Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.paket) is not compatible with the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) as it is a subset of the later. Please see the note regarding the incompatibilty in the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) page.
+It is not recommended to install the extension [Paket Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.paket) in combination with [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) as it is a subset of the later. Please see the note regarding the incompatibilty in the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) page.
 
 Tasks
 -----
