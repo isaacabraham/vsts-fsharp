@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
     "id": "paket{ID-Postfix}",
-    "version": "1.0.2",
-    "name": "Paket Tasks for VSTS{Name-Postfix}",
+    "version": "1.3.5",
+    "name": "Paket Tasks for Azure DevOps{Name-Postfix}",
     "publisher": "{Publisher}",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
     "description": "Manage your NuGet packages with the paket client.",
@@ -14,7 +14,7 @@
         { "path": "content\\images\\1.png" },
         { "path": "content\\images\\2.png" }
     ],
-    "content": { "details": { "path": "readme.md" } },
+    "content": { "details": { "path": "README_PAKET.md" } },
     "links" : {
         "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
     },

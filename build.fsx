@@ -252,6 +252,11 @@ Target.create "CompileCredentialManager" (fun _ ->
             Configuration = DotNet.Release
             OutputPath = Some (Path.GetFullPath "SetPaketCredentialProvider.dev/CredentialProvider")
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
+
+    // Copy to all required locations
+    Shell.CleanDir "FAKE5.dev/CredentialProvider"
+    Shell.cp_r "SetPaketCredentialProvider.dev/CredentialProvider" "FAKE5.dev/CredentialProvider"
+
 )
 
 Target.create "Common" (fun _ ->

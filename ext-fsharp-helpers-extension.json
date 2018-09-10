@@ -1,8 +1,8 @@
 {
     "manifestVersion": 1,
     "id": "fsharp-helpers-extension{ID-Postfix}",
-    "version": "1.3.2",
-    "name": "F# Helpers for VSTS{Name-Postfix}",
+    "version": "1.3.5",
+    "name": "F# Helpers for Azure DevOps{Name-Postfix}",
     "publisher": "{Publisher}",
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
     "description": "Helpers for running tools often used within F# projects such as Paket and FAKE.",
