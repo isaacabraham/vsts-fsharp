@@ -30,10 +30,15 @@ _ReSharper*/
 *.vsix
 publish.bat
 
+*.temp.json
 *.js
+
+[rR]elease*.sh
+[rR]elease*.cmd
 
 .fake
 node_modules
+FAKE5.dev/CredentialProvider/
 SetPaketCredentialProvider.dev/CredentialProvider/
 SetPaketCredentialProvider/
 FAKE5/

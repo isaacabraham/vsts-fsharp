@@ -1,18 +1,28 @@
-F# Helpers for Visual Studio Team Services
+F# Helpers for Azure DevOps
 ==========================================
 
 Introduction
 ------------
-This extension contains build tasks for use within VSTS Team Build that are particularly
+This extension contains build tasks for use within Azure Devops that are particularly
 useful within the F# world. At the current time, the extension contains the following tasks.
 
 Contributors: @isaacabraham, @matthid.
+
+Note
+-----
+
+There are some smaller extensions you can install instead of this one:
+
+- [FAKE Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fake-build)
+- [Paket Tasks for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.paket)
+
+it is not recommeded to install these together with the [F# Helpers for Azure DevOps](https://marketplace.visualstudio.com/items?itemName=isaacabraham.fsharp-helpers-extension) extension (ie they should not be installed at the same time). You can either install the "F# Helpers for Azure DevOps" extension for an all-in-one solution or any combination of the smaller ones. You can switch back and forth between the all-in-one and subset-packages any time by uninstalling the extensions. Your existing build and release processes will continue to work, but might no longer receive updates for already used tasks!
 
 Tasks
 -----
 
 ### Setup Paket Credential Provider
-Use the **Setup Paket Credential Provider** task to setup the required credential manager to access your internal VSTS/TFS NuGet feeds within your own build script running paket.
+Use the **Setup Paket Credential Provider** task to setup the required credential manager to access your internal Azure DevOps NuGet feeds within your own build script running paket.
 
 > Note: For this task to work correctly you need to have the dotnet SDK installed on your agent (or installed via "DotNet Install" task).
 
@@ -30,6 +40,9 @@ override the location of the bootstrapper, but this defaults to the ```.paket```
 Use the **FAKE 5 Runner** task to execute any FAKE 5 script in the repository. This task downloads
 and caches the given FAKE 5 version. In addition to the path of the FAKE script, you can supply 
 an optional target as well as any other arbitrary arguments that are required.
+
+### FAKE 5 Vault
+Use the **FAKE 5 Vault** task to create a fake 5 vault. This task is useful if you want to use secret variables and run your own fake 5 bootstrapping method (ie not the `FAKE 5 Runner` Task). See [the official FAKE documentation](https://fake.build/apidocs/v5/fake-buildserver-teamfoundation.html)
 
 ### FAKE Runner
 Use the **FAKE Runner** task to execute any FAKE script in the repository. This task assumes that

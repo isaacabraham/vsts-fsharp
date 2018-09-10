@@ -32,6 +32,8 @@ open Fake.DotNet
 open System.Net.Http
 open System.Collections.Generic
 
+let publisher = Environment.environVarOrDefault "PUBLISHER" "IsaacAbraham"
+
 module Util =
     open System.Net
 
@@ -226,7 +228,11 @@ Target.create "NpmInstall" (fun _ ->
     Npm.install "." []
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
-            Npm.install dir []
+            try Npm.install dir []
+            with _ ->
+                printfn "npm install failed, trying to delete the lockfile"
+                File.Delete (dir </> "package-lock.json")
+                Npm.install dir []        
 )
 
 //Target "PrepareBinaries" (fun _ ->
@@ -246,6 +252,11 @@ Target.create "CompileCredentialManager" (fun _ ->
             Configuration = DotNet.Release
             OutputPath = Some (Path.GetFullPath "SetPaketCredentialProvider.dev/CredentialProvider")
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
+
+    // Copy to all required locations
+    Shell.CleanDir "FAKE5.dev/CredentialProvider"
+    Shell.cp_r "SetPaketCredentialProvider.dev/CredentialProvider" "FAKE5.dev/CredentialProvider"
+
 )
 
 Target.create "Common" (fun _ ->
@@ -269,6 +280,41 @@ Target.create "Compile" (fun _ ->
             Npm.script dir "tsc" []
 )
 
+type ExtensionReplacement =
+    { NamePostfix : string
+      IdPostfix : string
+      Public : bool }
+    member x.AsList =
+        [ "{Name-Postfix}", x.NamePostfix
+          "{ID-Postfix}", x.IdPostfix
+          "\"{PublicFlag}\"", x.Public.ToString().ToLowerInvariant()
+          "{Publisher}", publisher ]
+
+let replaceInFile sourceFile targetFile (replacements: (string * string) list)=
+    (File.ReadAllText(sourceFile), replacements)
+    ||> Seq.fold (fun state (template, replacement) ->
+        state.Replace(template, replacement))
+    |> fun text -> File.WriteAllText(targetFile, text)
+
+let replaceTaskJsons () =
+    // fixup task-ids:
+    printfn "fixing task-ids for sub-extensions."
+    let replacements =
+        [ "a2dadf20-1a83-4220-a4ee-b52f6c77f3cf", "dd88f622-7838-44dc-96d6-2372af78775b" // FAKE5 Runner
+          "26d2a628-d5fe-4d5a-943d-33c78b2d76f3", "e5090f4d-0f56-4401-9bbc-d7af2b5c1bd1" // FAKE5 Vault
+          "33416f37-5fe8-488d-a2aa-48f52e7a14f9", "1c4d173c-798c-4636-a842-2da42eb2c20e" // PaketCredentialCleanup
+          "1ba72b0a-f476-4a91-90a0-b8e7a0cc4338", "90d5ae45-3fc2-4ede-b572-9a57379fbf8a" // PaketRestore
+          "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c", "c2aea098-6aab-4cd3-9a0c-57b074df3df5" // SetPaketCredentialProvider
+        ]
+
+    for dir in dirs do
+        let taskJson = (dir </> "task.json")
+        replaceInFile taskJson taskJson replacements
+
+Target.create "FixTaskJson" (fun _ ->
+    replaceTaskJsons()
+)
+
 Target.create "Bundle" (fun _ ->
     // Workaround for not having an "exclude" feature...
     for dir in dirs do
@@ -283,14 +329,56 @@ Target.create "Bundle" (fun _ ->
         if File.Exists (dir </> "package.json") then
             Npm.prune dir true
 
+    // delete existing vsix files
+    !! "*.vsix"
+    |> Seq.iter File.Delete
 
+    // Bundle vsix files
+    let replacements = 
+        [ { NamePostfix = ""; IdPostfix = ""; Public = true }
+          { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } ]
+    
+    let createExtension ext =
+        for repl in replacements do
+            let sourceName = sprintf "ext-%s.json" ext
+            let targetName = sprintf "ext-%s%s.temp.json" ext repl.IdPostfix
+            
+            replaceInFile sourceName targetName repl.AsList
+                
+            Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
+            File.Delete(targetName)
+    
+    createExtension "fsharp-helpers-extension"
 
-    Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; "vss-extension.json"]
+    replaceTaskJsons()
+
+    createExtension "fake-build"
+    createExtension "paket"
 )
 
 Target.create "Publish" (fun _ ->
-    let token = Environment.environVarOrFail "vsts-token"
-    Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--manifests"; "vss-extension.json" ]
+    let token =
+        match Environment.environVarOrNone "vsts-token" with
+        | Some tok -> tok
+        | None -> Environment.environVarOrFail "VSTS_TOKEN"
+    let publishPrivate = Boolean.Parse(Environment.environVarOrDefault "publishPrivate" "false")
+
+    let repl =
+        if publishPrivate
+        then { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } 
+        else { NamePostfix = ""; IdPostfix = ""; Public = true }
+    
+    let exts = [ "fsharp-helpers-extension";"fake-build"; "paket"]
+    for ext in exts do
+        let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
+        let vsixFile =
+           !! (sprintf "%s*.vsix" prefix)
+           |> Seq.filter (fun file -> 
+                let name = Path.GetFileName(file)
+                not <| name.Substring(prefix.Length).Contains("-"))
+           |> Seq.exactlyOne
+   
+        Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--vsix"; vsixFile ]
     )
 
 Target.create "Default" (fun _ -> ())

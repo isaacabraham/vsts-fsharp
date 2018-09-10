@@ -15,6 +15,14 @@ function exitWithError(message, exitCode) {
   process.exit(exitCode);
 }
 
+const mkdirSync = function (dirPath) {
+  try {
+    fs.mkdirSync(dirPath)
+  } catch (err) {
+    if (err.code !== 'EEXIST') throw err
+  }
+}
+
 async function doMain() {
   try {
     console.log(`setup paket credential manager`);
@@ -48,13 +56,19 @@ async function doMain() {
     let failOnStdError = tl.getBoolInput("FailOnStdError");
     
     // Download and cache fake as tool
-    let executable, args = common.downloadFakeAndReturnInvocation(fakeVersion, fakeArgs);
+    let result = await common.downloadFakeAndReturnInvocation(fakeVersion, fakeArgs);
+    if (!result) {
+      exitWithError("Could not download fake", 1);
+      return;
+    }
+
+    let [ executable, args ] = result;
 
     // get json list of variables.
     let fakeBaseDir = path.join(scriptDir, ".fake");
     let fakeScriptDir = path.join(fakeBaseDir, scriptName);
-    fs.mkdirSync(fakeBaseDir);
-    fs.mkdirSync(fakeScriptDir);
+    mkdirSync(fakeBaseDir);
+    mkdirSync(fakeScriptDir);
     let secretFile = path.join(fakeScriptDir, ".secret");
     let json = common.createFakeVariablesJson(secretFile, preventSecrets);
     tl.debug("FAKE_VSTS_VAULT_VARIABLES: " + json);
