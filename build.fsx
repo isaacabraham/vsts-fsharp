@@ -77,7 +77,7 @@ let npmCi dir =
         Npm.install dir []        
 
 Target.create "NpmInstall" (fun _ ->
-    npmCi "."
+    npmCi "tfx"
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
             npmCi dir
@@ -172,11 +172,11 @@ Target.create "BuildArtifacts" (fun _ ->
 
 Target.create "RestoreArtifacts" (fun args ->
     if args.Context.TryFindPrevious "NpmInstall" |> Option.isNone then
-        npmCi "."
+        npmCi "tfx"
         
-    Shell.cleanDir "temp"
+    Directory.ensure "tfx"
     Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_unzip.zip")
-    Zip.unzip "temp" (artifactsDir </> "tasks_unzip.zip")
+    Zip.unzip "tfx" (artifactsDir </> "tasks_unzip.zip")
     File.Delete(artifactsDir </> "tasks_unzip.zip")
 )
 
@@ -192,7 +192,7 @@ let replaceTaskJsons () =
         ]
 
     for ext in extensionDirNames do
-        let taskJson = ("temp" </> ext </> "task.json")
+        let taskJson = ("tfx" </> ext </> "task.json")
         replaceInFile taskJson taskJson replacements
 
 Target.create "FixTaskJson" (fun _ ->
@@ -202,28 +202,28 @@ Target.create "FixTaskJson" (fun _ ->
 Target.create "BundleExtensions" (fun _ ->
     Directory.ensure (artifactsDir </> "vsix")
 
+
     // delete existing vsix files
-    !! "*.vsix"
+    !! "tfx/*.vsix"
         |> Seq.iter File.Delete
+
+    // Copy readme
+    File.Copy("README.md", "tfx/README.md", true)
 
     // Bundle vsix files
     let replacements = 
         [ { NamePostfix = ""; IdPostfix = ""; Public = true }
           { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } ]
     
-    !! "*-icon.png"
-        |> Shell.copy "temp" 
-
-
     let createExtension ext =
         for repl in replacements do
             let sourceName = sprintf "ext-%s.json" ext
-            let targetName = sprintf "temp/ext-%s%s.temp.json" ext repl.IdPostfix
+            let targetName = sprintf "ext-%s%s.temp.json" ext repl.IdPostfix
             
-            replaceInFile sourceName targetName repl.AsList
+            replaceInFile ("tfx" </> sourceName) ("tfx" </> targetName) repl.AsList
                 
-            Npm.script "." "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
-            File.Delete(targetName)
+            Npm.script "tfx" "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
+            File.Delete("tfx" </> targetName)
     
     createExtension "fsharp-helpers-extension"
 
@@ -232,10 +232,12 @@ Target.create "BundleExtensions" (fun _ ->
     createExtension "fake-build"
     createExtension "paket"
     
-    !! "*.vsix"
+    !! "tfx/*.vsix"
         |> Shell.copy (artifactsDir </> "vsix")
 
-    !! "*.vsix"
+    File.Delete("tfx/README.md")
+
+    !! "tfx/*.vsix"
         |> Seq.iter File.Delete
 )
 
@@ -263,8 +265,9 @@ Target.create "PublishImpl" (fun _ ->
                 let name = Path.GetFileName(file)
                 not <| name.Substring(prefix.Length).Contains("-"))
            |> Seq.exactlyOne
+           |> Path.GetFullPath
    
-        Npm.script "." "tfx" ["extension"; "publish"; "--token"; token; "--vsix"; vsixFile ]
+        Npm.script "tfx" "tfx" ["extension"; "publish"; "--token"; token; "--vsix"; vsixFile ]
     )
 
 Target.create "Default" (fun _ -> ())

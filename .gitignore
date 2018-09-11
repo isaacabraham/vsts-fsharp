@@ -48,5 +48,15 @@ Tasks/FAKE5/
 Tasks/FAKE5Vault/
 Tasks/PaketCredentialCleanup/
 Tasks/PaketRestore/
+
+tfx/FAKE4Runner/
+tfx/FAKE5/
+tfx/FAKE5Vault/
+tfx/FSharpScript/
+tfx/PaketCredentialCleanup/
+tfx/PaketRestore/
+tfx/SetPaketCredentialProvider/
+tfx/README.md
+
 /.vs
 _build
