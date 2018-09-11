@@ -69,15 +69,18 @@ Target.create "Clean" (fun _ ->
     Shell.cleanDir "_build"
 )
 
+let npmCi dir =
+    try Npm.ci dir []
+    with _ ->
+        printfn "npm ci failed, trying to delete the lockfile"
+        File.Delete (dir </> "package-lock.json")
+        Npm.install dir []        
+
 Target.create "NpmInstall" (fun _ ->
-    Npm.install "." []
+    npmCi "."
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
-            try Npm.ci dir []
-            with _ ->
-                printfn "npm ci failed, trying to delete the lockfile"
-                File.Delete (dir </> "package-lock.json")
-                Npm.install dir []        
+            npmCi dir
 )
 
 Target.create "CompileCredentialManager" (fun _ ->
@@ -166,11 +169,15 @@ Target.create "BuildArtifacts" (fun _ ->
 )
 
 Target.create "RestoreArtifacts" (fun _ ->
+    if args.Context.TryFindPrevious "NpmInstall" |> Option.isNone then
+        npmCi "."
+        
     Shell.cleanDir "temp"
     Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_unzip.zip")
     Zip.unzip "temp" (artifactsDir </> "tasks_unzip.zip")
     File.Delete(artifactsDir </> "tasks_unzip.zip")
 )
+
 let replaceTaskJsons () =
     // fixup task-ids:
     printfn "fixing task-ids for sub-extensions."
