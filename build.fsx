@@ -168,7 +168,7 @@ Target.create "BuildArtifacts" (fun _ ->
     Trace.publish ImportData.BuildArtifact (artifactsDir </> "tasks.zip")
 )
 
-Target.create "RestoreArtifacts" (fun _ ->
+Target.create "RestoreArtifacts" (fun args ->
     if args.Context.TryFindPrevious "NpmInstall" |> Option.isNone then
         npmCi "."
         
