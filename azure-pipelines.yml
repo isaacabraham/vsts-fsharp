@@ -1,0 +1,9 @@
+Agent: Hosted Linux Preview
+
+Task:
+
+  - task: isaacabraham.fsharp-helpers-extension.a2dadf20-1a83-4220-a4ee-b52f6c77f3cf.FAKE5@1
+    displayName: 'Run FAKE script'
+    inputs:
+      FakeVersion: 5.5.0
+      FakeScript: build.fsx
