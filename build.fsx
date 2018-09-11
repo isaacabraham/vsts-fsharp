@@ -63,6 +63,8 @@ let asDevel d =
     let devDir = d + ".dev"
     if Directory.Exists devDir then devDir else d
 
+do Npm.command "." "version" []
+
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "_build"
 )
