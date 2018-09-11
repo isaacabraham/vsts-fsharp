@@ -191,8 +191,8 @@ let replaceTaskJsons () =
           "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c", "c2aea098-6aab-4cd3-9a0c-57b074df3df5" // SetPaketCredentialProvider
         ]
 
-    for dir in dirs do
-        let taskJson = (dir </> "task.json")
+    for ext in extensionDirNames do
+        let taskJson = ("temp" </> ext </> "task.json")
         replaceInFile taskJson taskJson replacements
 
 Target.create "FixTaskJson" (fun _ ->
