@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.3.8
+## 1.3.9
 
 * Update release process
 * Bugfixes
