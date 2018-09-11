@@ -1,6 +1,17 @@
+resources:
+- repo: self
+queue:
+  name: Hosted VS2017
+  demands: DotNetCore
+
 steps:
-- task: isaacabraham.fsharp-helpers-extension.a2dadf20-1a83-4220-a4ee-b52f6c77f3cf.FAKE5@1
-    displayName: 'Run FAKE script'
-    inputs:
-      FakeVersion: 5.5.0
-      FakeScript: build.fsx
+- task: matthid.fsharp-helpers-extension-private.a2dadf20-1a83-4220-a4ee-b52f6c77f3cf.FAKE5@1
+  displayName: 'Run the Build'
+  inputs:
+    FakeVersion: 5.5.0
+
+    #ScriptArguments: '--parallel 3 -t Release_BuildAndTest'
+
+
+
+
