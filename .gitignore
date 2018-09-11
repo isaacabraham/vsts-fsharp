@@ -30,6 +30,9 @@ _ReSharper*/
 *.vsix
 publish.bat
 
+publish/
+temp/
+
 *.temp.json
 *.js
 
@@ -38,12 +41,12 @@ publish.bat
 
 .fake
 node_modules
-FAKE5.dev/CredentialProvider/
-SetPaketCredentialProvider.dev/CredentialProvider/
-SetPaketCredentialProvider/
-FAKE5/
-FAKE5Vault/
-PaketCredentialCleanup/
-PaketRestore/
+Tasks/FAKE5.dev/CredentialProvider/
+Tasks/SetPaketCredentialProvider.dev/CredentialProvider/
+Tasks/SetPaketCredentialProvider/
+Tasks/FAKE5/
+Tasks/FAKE5Vault/
+Tasks/PaketCredentialCleanup/
+Tasks/PaketRestore/
 /.vs
 _build
