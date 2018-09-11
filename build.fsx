@@ -73,9 +73,9 @@ Target.create "NpmInstall" (fun _ ->
     Npm.install "." []
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
-            try Npm.install dir []
+            try Npm.ci dir []
             with _ ->
-                printfn "npm install failed, trying to delete the lockfile"
+                printfn "npm ci failed, trying to delete the lockfile"
                 File.Delete (dir </> "package-lock.json")
                 Npm.install dir []        
 )

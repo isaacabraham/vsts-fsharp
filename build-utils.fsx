@@ -138,13 +138,12 @@ module Npm =
         |> Util.run workingDir "npm"
 
     let install workingDir modules =
-        let npmInstall () =
-            sprintf "install %s" (String.concat " " modules)
-            |> Util.run workingDir "npm"
+        sprintf "install %s" (String.concat " " modules)
+        |> Util.run workingDir "npm"
 
-        // On windows, retry npm install to avoid bug related to https://github.com/npm/npm/issues/9696
-        Util.retryIfFails (if Environment.isWindows then 3 else 0) npmInstall
-
+    let ci workingDir modules =
+        sprintf "ci %s" (String.concat " " modules)
+        |> Util.run workingDir "npm"
     let prune workingDir isProd =
         // https://docs.npmjs.com/cli/prune
         sprintf "prune %s" (if isProd then "--production" else "--no-production")
