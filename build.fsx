@@ -239,7 +239,7 @@ Target.create "BundleExtensions" (fun _ ->
         |> Seq.iter File.Delete
 )
 
-Target.create "Publish" (fun _ ->
+Target.create "PublishImpl" (fun _ ->
     let token =
         match getVarOrDefault "vsts-token" "none" with
         | "none" ->
@@ -268,6 +268,7 @@ Target.create "Publish" (fun _ ->
     )
 
 Target.create "Default" (fun _ -> ())
+Target.create "Publish" (fun _ -> ())
 Target.create "Publish_CD" (fun _ -> ())
 
 
@@ -292,7 +293,15 @@ Target.create "Publish_CD" (fun _ -> ())
 "Default"
     ==> "Publish"
 
+"PublishImpl"
+    ==> "Publish"
+
+"Default" ?=> "PublishImpl"
+"BundleExtensions" ?=> "PublishImpl"
+
 "BundleExtensions"
+    ==> "Publish_CD"
+"PublishImpl"
     ==> "Publish_CD"
 
 Target.runOrDefault "Default"
