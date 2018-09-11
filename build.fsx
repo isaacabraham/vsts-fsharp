@@ -153,7 +153,7 @@ Target.create "SetupTaskDirectories" (fun _ ->
 Target.create "BuildArtifacts" (fun _ ->
     Directory.ensure "publish"
 
-    let targetName = (artifactsDir </> "tasks.zip")
+    let targetName = (artifactsDir </> "tasks_temp.zip")
     dirs
     |> List.map (fun dir ->
         !! (dir + "/**/*")
@@ -161,14 +161,15 @@ Target.create "BuildArtifacts" (fun _ ->
     |> Seq.concat
     |> Zip.zipSpec targetName
 
-    Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_upload.zip")
-    Trace.publish ImportData.BuildArtifact (artifactsDir </> "tasks_upload.zip")
+    Shell.cp targetName (artifactsDir </> "tasks.zip")
+    Trace.publish ImportData.BuildArtifact (artifactsDir </> "tasks.zip")
 )
 
 Target.create "RestoreArtifacts" (fun _ ->
     Shell.cleanDir "temp"
-    Zip.unzip "temp" (artifactsDir </> "tasks.zip")
-
+    Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_unzip.zip")
+    Zip.unzip "temp" (artifactsDir </> "tasks_unzip.zip")
+    File.Delete(artifactsDir </> "tasks_unzip.zip")
 )
 let replaceTaskJsons () =
     // fixup task-ids:
@@ -231,10 +232,13 @@ Target.create "BundleExtensions" (fun _ ->
 
 Target.create "Publish" (fun _ ->
     let token =
-        match Environment.environVarOrNone "vsts-token" with
-        | Some tok -> tok
-        | None -> Environment.environVarOrFail "VSTS_TOKEN"
-    let publishPrivate = Boolean.Parse(Environment.environVarOrDefault "publishPrivate" "false")
+        match getVarOrDefault "vsts-token" "none" with
+        | "none" ->
+            match getVarOrDefault "VSTS_TOKEN" "none" with
+            | "none" -> failwithf "need 'VSTS_TOKEN' to publish"
+            | t -> t
+        | tok -> tok
+    let publishPrivate = Boolean.Parse(getVarOrDefault "publishPrivate" "false")
 
     let repl =
         if publishPrivate
@@ -245,7 +249,7 @@ Target.create "Publish" (fun _ ->
     for ext in exts do
         let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
         let vsixFile =
-           !! (sprintf "%s*.vsix" prefix)
+           !! (artifactsDir </> "vsix" </> sprintf "%s*.vsix" prefix)
            |> Seq.filter (fun file -> 
                 let name = Path.GetFileName(file)
                 not <| name.Substring(prefix.Length).Contains("-"))
@@ -255,6 +259,7 @@ Target.create "Publish" (fun _ ->
     )
 
 Target.create "Default" (fun _ -> ())
+Target.create "Publish_CD" (fun _ -> ())
 
 
 "Clean"
@@ -275,7 +280,10 @@ Target.create "Default" (fun _ -> ())
 "BuildArtifacts"
     ==> "Default"
 
-"BundleExtensions"
+"Default"
     ==> "Publish"
+
+"BundleExtensions"
+    ==> "Publish_CD"
 
 Target.runOrDefault "Default"
