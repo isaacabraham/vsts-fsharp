@@ -161,8 +161,8 @@ Target.create "BuildArtifacts" (fun _ ->
     |> Seq.concat
     |> Zip.zipSpec targetName
 
-    Shell.cp (artifactsDir </> "tasks.zip") ("temp/tasks.zip")
-    Trace.publish ImportData.BuildArtifact ("temp/tasks.zip")
+    Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_upload.zip")
+    Trace.publish ImportData.BuildArtifact (artifactsDir </> "tasks_upload.zip")
 )
 
 Target.create "RestoreArtifacts" (fun _ ->
