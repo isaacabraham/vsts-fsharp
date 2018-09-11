@@ -29,10 +29,12 @@ async function doMain() {
     await common.setupPaketCredentialManager();
 
     let scriptPath = tl.getPathInput("FakeScript", true);
+    tl.debug(`Using scriptPath '${scriptPath}'.`);
     let scriptDir = path.dirname(scriptPath);
     let scriptName = path.basename(scriptPath);
     let workingDir = tl.getPathInput("WorkingDirectory");
     if (isNullOrUndefined(workingDir) || workingDir == "") {
+      tl.debug(`Using scriptdir '${scriptDir}' as working directory as workingDir was empty.`);
       workingDir = scriptDir;
     }
 
@@ -42,8 +44,12 @@ async function doMain() {
     }
 
     let fakeArgs = tl.getInput("FakeArguments");
-    if (!fakeArgs){
-      fakeArgs = `run "${scriptName}" ${scriptArgs}`;
+    if (!fakeArgs) {
+      if (scriptDir == workingDir) {
+        fakeArgs = `run "${scriptName}" ${scriptArgs}`;
+      } else {
+        fakeArgs = `run "${scriptPath}" ${scriptArgs}`;
+      }
     }
     let fakeVersionRaw = tl.getInput("FakeVersion");
     let fakeVersion = semver.parse(fakeVersionRaw);

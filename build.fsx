@@ -144,6 +144,8 @@ Target.create "SetupTaskDirectories" (fun _ ->
         if devel <> dir then
             Shell.cleanDir dir
             Shell.cp_r devel dir
+            !! (dir </> "**/*.ts")
+                |> Seq.iter File.delete
     // delete stuff we don't want
     
     // cleanup node_modules to only contain --production dependencies
