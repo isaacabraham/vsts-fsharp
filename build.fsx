@@ -286,10 +286,13 @@ Target.create "PublishImpl" (fun _ ->
         tries <- tries - 1
         System.Threading.Thread.Sleep(5000)
         for ext, vsixFile in pending do
-            let result =
+            let r =
                 Npm.scriptAndReturn "tfx" "tfx"
                     [ "extension"; "isvalid"; "--publisher"; publisher; "--extension-id"; ext + repl.IdPostfix
                       "--json"; "--version"; version; "--service-url"; "https://marketplace.visualstudio.com"; "--token"; token ]
+            let result = r.Messages |> String.concat "\n"
+            let errors = r.Messages |> String.concat "\n"
+            printfn "stdout: %s\nstderr: %s" result errors
             if not <| result.Contains "pending" then
                 if not <| result.Contains "success" then
                     failed <- (vsixFile, result) :: failed

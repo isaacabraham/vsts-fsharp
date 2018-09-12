@@ -71,8 +71,7 @@ module Util =
                 FileName = fileName
                 WorkingDirectory = workingDir
                 Arguments = args}) TimeSpan.MaxValue
-        if result.ExitCode <> 0 then failwith (sprintf "'%s> %s %s' task failed with code %d" workingDir fileName args result.ExitCode)
-        result.Messages |> String.concat "\n"
+        result//.Messages |> String.concat "\n"
 
     let rmdir dir =
         if Environment.isUnix
