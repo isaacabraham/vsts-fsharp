@@ -12,7 +12,6 @@ steps:
   displayName: 'Run the Build'
   inputs:
     FakeVersion: 5.5.0
-    FakeScript: $(Build.SourcesDirectory)/build.fsx
     ScriptArguments: '-t BuildArtifacts'
 
 
