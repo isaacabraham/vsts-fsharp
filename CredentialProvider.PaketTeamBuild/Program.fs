@@ -31,13 +31,30 @@ let main argv =
             match tryGetArg "uri" argv with
             | Some givenUriStr -> System.Uri givenUriStr
             | None -> failwithf "the -uri argument is required"
+        let isAzureDevOps (host:string) =
+            host.Contains "dev.azure.com" ||
+            host.Contains "visualstudio.com"
+        let extractInstance (uri:Uri) =
+            if uri.Host.Contains "dev.azure.com" then
+                if uri.Segments.Length < 2 then failwithf "Unrecognized Uri '%s'" uri.OriginalString
+                uri.Segments.[1].Trim('/')
+            elif uri.Host.Contains "visualstudio.com" then
+                uri.Host.Split('.').[0]
+            else
+                failwithf "Cannot extract instance name from uri '%s'" uri.OriginalString            
         let isResponsible =
             if String.IsNullOrWhiteSpace uriStr then
-                givenUri.Host.Contains "dev.azure.com" ||
-                givenUri.Host.Contains "visualstudio.com" || givenUri.PathAndQuery.StartsWith "/tfs/"
+                isAzureDevOps givenUri.Host || givenUri.PathAndQuery.StartsWith "/tfs/"
             else
                 let uri = System.Uri uriStr
-                uri.Host = givenUri.Host
+                // We need to match pkgs.dev.azure.com/<myinstance> and <myinstance>.fakebuild.pkgs.visualstudio.com
+                // basically check if this is the correct instance or same tfs server
+                if isAzureDevOps uri.Host && isAzureDevOps givenUri.Host then
+                    // check instance
+                    extractInstance uri = extractInstance givenUri
+                else
+                    // check host
+                    uri.Host = givenUri.Host
 
         if not isResponsible then
             printfn """

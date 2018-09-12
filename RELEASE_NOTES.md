@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.3.14
+
+* Fix credential provider after rebranding.
+
 ## 1.3.13
 
 * Support dev.azure.com nuget feed in credential provider.
