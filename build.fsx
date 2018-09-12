@@ -66,6 +66,7 @@ let asDevel d =
     if Directory.Exists devDir then devDir else d
 
 do Npm.command "." "version" []
+do Trace.setBuildNumber version
 
 Target.create "Clean" (fun _ ->
     Shell.cleanDir "_build"

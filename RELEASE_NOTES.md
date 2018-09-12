@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.3.12
+
+* Support dev.azure.com nuget feed in credential provider.
+
 ## 1.3.11
 
 * Update release process

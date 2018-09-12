@@ -33,6 +33,7 @@ let main argv =
             | None -> failwithf "the -uri argument is required"
         let isResponsible =
             if String.IsNullOrWhiteSpace uriStr then
+                givenUri.Host.Contains "dev.azure.com" ||
                 givenUri.Host.Contains "visualstudio.com" || givenUri.PathAndQuery.StartsWith "/tfs/"
             else
                 let uri = System.Uri uriStr

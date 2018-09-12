@@ -1,6 +1,6 @@
 {
   "name": "vsts-fsharp-task-common",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "VSTS F# Helper Tasks Common",
   "main": "common.js",
   "scripts": {
