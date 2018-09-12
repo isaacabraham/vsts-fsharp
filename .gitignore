@@ -41,6 +41,7 @@ temp/
 
 .fake
 node_modules
+Common/CredentialProvider/
 Tasks/FAKE5.dev/CredentialProvider/
 Tasks/SetPaketCredentialProvider.dev/CredentialProvider/
 Tasks/SetPaketCredentialProvider/

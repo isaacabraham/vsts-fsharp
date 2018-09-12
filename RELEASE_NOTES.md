@@ -1,9 +1,10 @@
 # Release notes
 
-## 1.3.9
+## 1.3.10
 
 * Update release process
-* Bugfixes
+* Bugfix regarding relative paths (Fake 5)
+* Bugfix credential providers
 
 ## 1.3.7
 

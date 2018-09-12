@@ -76,26 +76,27 @@ let npmCi dir =
         File.Delete (dir </> "package-lock.json")
         Npm.install dir []        
 
+Target.create "CompileCredentialManager" (fun _ ->
+    Shell.cleanDir "Common/CredentialProvider"
+    DotNet.publish (fun c ->
+        { c with
+            Runtime = None
+            Configuration = DotNet.Release
+            OutputPath = Some (Path.GetFullPath "Common/CredentialProvider")
+        }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
+)
+
+Target.create "DeletePackageLocks" (fun _ ->
+    for dir in dirs |> Seq.map asDevel do
+        if File.Exists(dir </> "package-lock.json") then
+            File.Delete(dir </> "package-lock.json")
+)
+
 Target.create "NpmInstall" (fun _ ->
     npmCi "tfx"
     for dir in dirs |> Seq.map asDevel do
         if File.Exists (dir </> "package.json") then
             npmCi dir
-)
-
-Target.create "CompileCredentialManager" (fun _ ->
-    Shell.cleanDir "Tasks/SetPaketCredentialProvider.dev/CredentialProvider"
-    DotNet.publish (fun c ->
-        { c with
-            Runtime = None
-            Configuration = DotNet.Release
-            OutputPath = Some (Path.GetFullPath "Tasks/SetPaketCredentialProvider.dev/CredentialProvider")
-        }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
-
-    // Copy to all required locations
-    Shell.cleanDir "Tasks/FAKE5.dev/CredentialProvider"
-    Shell.cp_r "Tasks/SetPaketCredentialProvider.dev/CredentialProvider" "Tasks/FAKE5.dev/CredentialProvider"
-
 )
 
 Target.create "Common" (fun _ ->
@@ -276,11 +277,11 @@ Target.create "Publish_CD" (fun _ -> ())
 
 
 "Clean"
+    ==> "CompileCredentialManager"
     ==> "Common"
     ==> "NpmInstall"
     //==> "PrepareBinaries"
     ==> "Compile"
-    ==> "CompileCredentialManager"
     ==> "SetupTaskDirectories"
     ==> "BuildArtifacts"
 
