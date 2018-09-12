@@ -64,7 +64,7 @@ module Util =
         printfn "CWD: %s" workingDir
         let fileName, args =
             if Environment.isUnix
-            then fileName, args else "cmd", ("/C " + args)
+            then fileName, args else "cmd", ("/C " + fileName + " " + args)
         let result =
             Process.execWithResult (fun info ->
             { info with
