@@ -8,6 +8,8 @@ nuget Fake.BuildServer.TeamFoundation
 nuget Fake.Core.Target
 nuget Fake.DotNet.Cli
 nuget Fake.Core.Environment
+
+nuget Newtonsoft.Json
 //"
 #load ".fake/build.fsx/intellisense.fsx"
 #load "build-utils.fsx"
@@ -242,6 +244,8 @@ Target.create "BundleExtensions" (fun _ ->
         |> Seq.iter File.Delete
 )
 
+open Newtonsoft.Json
+
 Target.create "PublishImpl" (fun _ ->
     let token =
         match getVarOrDefault "vsts-token" "none" with
@@ -258,19 +262,54 @@ Target.create "PublishImpl" (fun _ ->
         else { NamePostfix = ""; IdPostfix = ""; Public = true }
     
     let exts = [ "fsharp-helpers-extension"; "fake-build"; "paket"]
-    for ext in exts do
-        let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
-        let vsixFile =
-           !! (artifactsDir </> "vsix" </> sprintf "%s*.vsix" prefix)
-           |> Seq.filter (fun file -> 
-                let name = Path.GetFileName(file)
-                not <| name.Substring(prefix.Length).Contains("-"))
-           |> Seq.exactlyOne
-           |> Path.GetFullPath
-   
-        Npm.script "tfx" "tfx" ["extension"; "publish"; "--token"; token; "--vsix"; vsixFile ]
-    )
+    let vsixFiles =    
+        exts
+        |> List.map (fun ext ->
+            let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
+            let vsixFile =
+               !! (artifactsDir </> "vsix" </> sprintf "%s*.vsix" prefix)
+               |> Seq.filter (fun file -> 
+                    let name = Path.GetFileName(file)
+                    not <| name.Substring(prefix.Length).Contains("-"))
+               |> Seq.exactlyOne
+               |> Path.GetFullPath
+            ext, vsixFile)
+    for _, vsixFile in vsixFiles do
+        // push without validation (to push a consistent state of extensions)
+        Npm.script "tfx" "tfx" ["extension"; "publish"; "--no-wait-validation"; "--token"; token; "--vsix"; vsixFile ]
 
+    let mutable pending = vsixFiles
+    let mutable failed = []
+    let mutable tries = 100
+    while pending.Length > 0 && tries > 0 do
+        tries <- tries - 1
+        System.Threading.Thread.Sleep(5000)
+        for ext, vsixFile in pending do
+            let result =
+                Npm.scriptAndReturn "tfx" "tfx"
+                    [ "extension"; "isvalid"; "--publisher"; publisher; "--extension-id"; ext + repl.IdPostfix
+                      "--json"; "--version"; version; "--service-url"; "https://marketplace.visualstudio.com"; "--token"; token ]
+            if not <| result.Contains "pending" then
+                if not <| result.Contains "success" then
+                    failed <- (vsixFile, result) :: failed
+                
+                pending <-
+                    pending
+                    |> List.filter (fun (_, vsix) -> vsix <> vsixFile)
+
+    if pending.Length > 0 || failed.Length > 0 then
+        let failedString =
+            System.String.Join("\n    ", failed |> Seq.map (fun (vsixFile, result) -> sprintf "%s: %s" vsixFile result))
+        let pendingString =
+            System.String.Join("\n    ", pending |> Seq.map (fun (ext, vsixFile) -> vsixFile))
+        failwithf
+            """Some extensions failed to validate:
+- Failed:
+    %s
+- Pending:
+    %s"""
+            failedString pendingString
+    )
 Target.create "Default" (fun _ -> ())
 Target.create "Publish" (fun _ -> ())
 Target.create "Publish_CD" (fun _ -> ())

@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.3.10
+## 1.3.11
 
 * Update release process
 * Bugfix regarding relative paths (Fake 5)
