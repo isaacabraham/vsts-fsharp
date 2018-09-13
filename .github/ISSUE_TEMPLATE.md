@@ -1,0 +1,36 @@
+### Description
+
+Please provide a succinct description of your issue.
+
+### Repro steps
+
+Please provide the steps required to reproduce the problem
+
+1. Step A
+
+2. Step B
+
+### Expected behavior
+
+Please provide a description of the behavior you expect.
+
+### Actual behavior
+
+Please provide a description of the actual behavior you observe. 
+
+### Details
+
+If possible include the build output with `System.Debug` set to `true`.
+
+### Known workarounds
+
+Please provide a description of any known workarounds.
+
+### Related information 
+
+* Operating system
+* Branch
+* .NET Runtime, CoreCLR or Mono Version
+* Indications of severity
+* Version of FAKE (4.X, 5.X)
+* (if performance issue) Performance information, links to performance testing scripts

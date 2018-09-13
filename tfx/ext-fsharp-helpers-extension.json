@@ -1,0 +1,71 @@
+{
+    "manifestVersion": 1,
+    "id": "fsharp-helpers-extension{ID-Postfix}",
+    "version": "{Version}",
+    "name": "F# Helpers for Azure DevOps{Name-Postfix}",
+    "publisher": "{Publisher}",
+    "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
+    "description": "Helpers for running tools often used within F# projects such as Paket and FAKE.",
+    "public": "{PublicFlag}",
+    "categories": [ "Build and release" ],
+    "icons": { "default": "extension-icon.png" },
+    "tags": [ "F#", "FAKE", "Paket" ],
+    "screenshots": [
+        { "path": "content\\images\\1.png" },
+        { "path": "content\\images\\2.png" }
+    ],
+    "content": { "details": { "path": "readme.md" } },
+    "links" : {
+        "support": { "uri": "https://github.com/isaacabraham/vsts-fsharp" }
+    },
+    "branding": {
+        "color": "rgb(51,51,51)",
+        "theme": "dark"
+    },
+    "files": [
+        { "path": "FAKE5" },
+        { "path": "FAKE5Vault" },
+        { "path": "FAKE4Runner" },
+        { "path": "PaketRestore" },
+        { "path": "FSharpScript" },
+        { "path": "SetPaketCredentialProvider" },
+        { "path": "PaketCredentialCleanup" }
+    ],
+    "contributions": [
+        {   "id": "26d2a628-d5fe-4d5a-943d-33c78b2d76f3",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE5Vault" }
+        },
+        {   "id": "a2dadf20-1a83-4220-a4ee-b52f6c77f3cf",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE5" }
+        },
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4339",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FAKE4Runner" }
+        },
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4338",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "PaketRestore" }
+        },
+        {   "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4337",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "FSharpScript" }
+        },
+        {   "id": "5bfdd7ca-9bf4-40f7-b753-fd674e7ff85c",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "SetPaketCredentialProvider" }
+        },
+        {   "id": "33416f37-5fe8-488d-a2aa-48f52e7a14f9",
+            "type": "ms.vss-distributed-task.task",
+            "targets": [ "ms.vss-distributed-task.tasks" ],
+            "properties": { "name": "PaketCredentialCleanup" }
+        }
+    ]
+}

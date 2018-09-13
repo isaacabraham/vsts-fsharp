@@ -1,0 +1,47 @@
+{
+    "id": "26d2a628-d5fe-4d5a-943d-33c78b2d76f3",
+    "name": "FAKE5Vault",
+    "friendlyName": "FAKE 5 Vault",
+    "description": "Prepare the environment to fill a Fake 5 Vault.",
+    "helpMarkDown": "Please consider using the fake 5 runner task instead. This task encrypts the VSTS variables (including secret ones) and prepares a given environment variable to fill a fake 5 vault. Make sure to remove the variable as soon as you used it by outputting `##vso[task.setvariable variable=FAKE_VAULT;]null`.",
+    "category": "Build",
+    "author": "Matthias Dittrich",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 5
+    },
+    "minimumAgentVersion": "1.83.0",
+    "instanceNameFormat": "Prepare the environment to fill a Fake 5 Vault.",
+    "inputs": [
+        {
+            "name": "SecretFile",
+            "type": "filePath",
+            "label": "Secret File",
+            "defaultValue": ".fake/build.fsx/.secret",
+            "helpMarkDown": "The path to the file containing the key.",
+            "required": "true"
+        },
+        {
+            "name": "VariableName",
+            "type": "string",
+            "label": "The variable containing the secrets",
+            "defaultValue": "FAKE_VAULT_VARIABLES",
+            "helpMarkDown": "The variable containing the encrypted secret variables. Make sure to delete this variable as soon as you read it in the next task.",
+            "required": "true"
+        },
+        {
+            "name": "IncludeSecrets",
+            "type": "boolean",
+            "label": "Include secret variables into the vault",
+            "defaultValue": "true",
+            "helpMarkDown": "We can skip secret variables.",
+            "required": "true"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "runFake5Vault.js"
+        }
+    }
+}
