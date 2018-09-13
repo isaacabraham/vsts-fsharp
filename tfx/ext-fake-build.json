@@ -27,12 +27,12 @@
         { "path": "FAKE5Vault" }
     ],
     "contributions": [
-        {   "id": "e5090f4d-0f56-4401-9bbc-d7af2b5c1bd1",
+        {   "id": "fake5",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
             "properties": { "name": "FAKE5Vault" }
         },
-        {   "id": "dd88f622-7838-44dc-96d6-2372af78775b",
+        {   "id": "fake5-vault",
             "type": "ms.vss-distributed-task.task",
             "targets": [ "ms.vss-distributed-task.tasks" ],
             "properties": { "name": "FAKE5" }
