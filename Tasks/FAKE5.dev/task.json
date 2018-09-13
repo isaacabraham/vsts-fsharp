@@ -9,7 +9,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 4
+        "Patch": 8
     },
     "demands": [
         "DotNetCore"
@@ -40,7 +40,7 @@
             "type": "filePath",
             "label": "Path to FAKE script",
             "defaultValue": "build.fsx",
-            "helpMarkDown": "The path to the FAKE build script.",
+            "helpMarkDown": "The path to the FAKE build script. relative paths always are relative to the project root, independent of the working directory.",
             "required": "true"
         },
         {
@@ -57,7 +57,7 @@
             "type": "filePath",
             "label": "Working Directory",
             "defaultValue":"",
-            "helpMarkDown": "The working directory (defaults to the path of the script).",
+            "helpMarkDown": "The working directory (defaults to the project root).",
             "required":"false"
         },
         {
@@ -73,9 +73,9 @@
             "name": "FakeArguments",
 			"groupName": "advanced",
             "type": "string",
-            "label": "Set the complete fake command line",
+            "label": "Set the complete fake command line.",
             "defaultValue": "",
-            "helpMarkDown": "For example enter 'run build.fsx -s target Build' to run a single target called build. This replaces 'Path to FAKE script' and 'The command line arguments for the script'",
+            "helpMarkDown": "For example enter 'run build.fsx -s target Build' to run a single target called build. This replaces 'Path to FAKE script' and 'The command line arguments for the script'. Just enter anything into the script path as it is required (but ignored).",
             "required": "false"
         },
         {

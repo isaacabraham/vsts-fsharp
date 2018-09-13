@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 1
+        "Patch": 5
     },
     "instanceNameFormat": "Cleanup Paket credential manager",
     "groups": [

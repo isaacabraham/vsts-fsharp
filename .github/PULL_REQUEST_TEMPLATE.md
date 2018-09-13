@@ -8,4 +8,4 @@ If available, link to an existing issue this PR fixes. For example:
 
 ## TODO
 
-- [] Updated tasks have updated versions 
+- [] Updated tasks have updated versions.

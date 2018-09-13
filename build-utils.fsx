@@ -64,13 +64,14 @@ module Util =
         printfn "CWD: %s" workingDir
         let fileName, args =
             if Environment.isUnix
-            then fileName, args else "cmd", ("/C " + args)
-        Process.execWithResult (fun info ->
+            then fileName, args else "cmd", ("/C " + fileName + " " + args)
+        let result =
+            Process.execWithResult (fun info ->
             { info with
                 FileName = fileName
                 WorkingDirectory = workingDir
                 Arguments = args}) TimeSpan.MaxValue
-        |> fun p -> p.Messages |> String.concat "\n"
+        result//.Messages |> String.concat "\n"
 
     let rmdir dir =
         if Environment.isUnix
@@ -136,6 +137,9 @@ module Npm =
     let script workingDir script args =
         sprintf "run %s -- %s" script (String.concat " " args)
         |> Util.run workingDir "npm"
+    let scriptAndReturn workingDir script args =
+        sprintf "run %s -- %s" script (String.concat " " args)
+        |> Util.runAndReturn workingDir "npm"
 
     let install workingDir modules =
         sprintf "install %s" (String.concat " " modules)

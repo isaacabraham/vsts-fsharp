@@ -4,10 +4,19 @@
 
 * Make usage with yaml easier
 
-## 1.3.9
+## 1.3.15
+
+* Fix credential provider after rebranding.
+
+## 1.3.13
+
+* Support dev.azure.com nuget feed in credential provider.
+
+## 1.3.11
 
 * Update release process
-* Bugfixes
+* Bugfix regarding relative paths (Fake 5)
+* Bugfix credential providers
 
 ## 1.3.7
 

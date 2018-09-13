@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 2,
-        "Patch": 1
+        "Patch": 5
     },
     "instanceNameFormat": "Setup Paket Credential Manager",
     "groups": [ ],
