@@ -9,7 +9,7 @@
     "version": {
         "Major": 0,
         "Minor": 4,
-        "Patch": 4
+        "Patch": 5
     },
     "minimumAgentVersion": "1.83.0",    
     "instanceNameFormat": "Restore Paket dependencies",

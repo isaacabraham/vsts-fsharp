@@ -9,7 +9,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 4
+        "Patch": 5
     },
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Prepare the environment to fill a Fake 5 Vault.",

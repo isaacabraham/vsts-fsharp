@@ -1,6 +1,6 @@
 # Release notes
 
-## 1.3.14
+## 1.3.15
 
 * Fix credential provider after rebranding.
 
