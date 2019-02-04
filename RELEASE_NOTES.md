@@ -1,5 +1,9 @@
 # Release notes
 
+## 1.4.0
+
+* Add new Fsharp Script task version
+
 ## 1.3.15
 
 * Fix credential provider after rebranding.

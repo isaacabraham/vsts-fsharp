@@ -49,7 +49,7 @@
             "defaultValue": "4.0",
             "required": "false",
             "helpMarkDown": "The version of F# to use, used to build the path to fsi.exe.",
-            "visibleRule": "fsiPathSelection = MicrosoftSDK"
+            "visibleRule": "FsiPathSelection = MicrosoftSDK"
         },
         {
             "name": "CustomPath",
@@ -58,7 +58,7 @@
             "defaultValue": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\FSharp\\fsi.exe",
             "required": "false",
             "helpMarkDown": "Custom path to fsi.exe",
-            "visibleRule": "fsiPathSelection = Custom"
+            "visibleRule": "FsiPathSelection = Custom"
         }
     ],
     "execution": {

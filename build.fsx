@@ -54,8 +54,11 @@ open Fake.Core
 open Fake.Core.TargetOperators
 
 let extensionDirNames = 
-    [ "PaketCredentialCleanup";"SetPaketCredentialProvider";
-      "FSharpScript"; "FAKE4Runner"; "PaketRestore"; "FAKE5"; "FAKE5Vault" ]
+    [ 
+      "PaketCredentialCleanup";"SetPaketCredentialProvider";
+      "FSharpScript" </> "FSharpScriptV1"; "FSharpScript" </> "FSharpScriptV2";
+      "FAKE4Runner"; "PaketRestore"; "FAKE5"; "FAKE5Vault" 
+      ]
 
 let dirs =
     extensionDirNames
