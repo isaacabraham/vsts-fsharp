@@ -7,7 +7,7 @@
     "targets": [ { "id": "Microsoft.VisualStudio.Services" } ],
     "description": "Helpers for running tools often used within F# projects such as Paket and FAKE.",
     "public": "{PublicFlag}",
-    "categories": [ "Build and release" ],
+    "categories": [ "Azure Pipelines" ],
     "icons": { "default": "extension-icon.png" },
     "tags": [ "F#", "FAKE", "Paket" ],
     "screenshots": [

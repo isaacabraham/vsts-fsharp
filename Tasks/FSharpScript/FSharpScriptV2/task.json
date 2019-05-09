@@ -1,0 +1,69 @@
+{
+    "id": "1ba72b0a-f476-4a91-90a0-b8e7a0cc4337",
+    "name": "FSharpScript",
+    "friendlyName": "Execute F# Script",
+    "description": "Executes an F# .fsx script file",
+    "helpMarkDown": "This task executes an arbitrary .fsx file.",
+    "category": "Utility",
+    "author": "Isaac Abraham",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "minimumAgentVersion": "1.83.0",
+    "instanceNameFormat": "Execute $(ScriptFile)",
+    "inputs": [
+        {
+            "name": "ScriptFile",
+            "type": "filePath",
+            "label": ".fsx file path",
+            "helpMarkDown": "The path to the .fsx file to execute.",
+            "required": "true"
+        },
+        {
+            "name": "ScriptArguments",
+            "type": "string",
+            "label": "Custom Arguments",
+            "defaultValue": "",
+            "required": "false",
+            "helpMarkDown": "Other arguments passed to the F# script."
+        },
+        {
+            "name": "FsiPathSelection",
+            "type": "pickList",
+            "label": "Path options",
+            "defaultValue": "VisualStudio",
+            "required": "false",
+            "helpMarkDown": "Pick fsi.exe destination",
+            "options": {
+                "MicrosoftSDK": "Microsoft SDK fsi.exe",
+                "VisualStudio": "Visual Studio Enterprise fsi.exe (Microsoft Hosted VS2017 Agent)",
+                "Custom": "Custom path to fsi.exe"
+            }
+        },
+        {
+            "name": "FsharpVersion",
+            "type": "string",
+            "label": "F# Version",
+            "defaultValue": "4.0",
+            "required": "false",
+            "helpMarkDown": "The version of F# to use, used to build the path to fsi.exe.",
+            "visibleRule": "FsiPathSelection = MicrosoftSDK"
+        },
+        {
+            "name": "CustomPath",
+            "type": "string",
+            "label": "Custom path",
+            "defaultValue": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Enterprise\\Common7\\IDE\\CommonExtensions\\Microsoft\\FSharp\\fsi.exe",
+            "required": "false",
+            "helpMarkDown": "Custom path to fsi.exe",
+            "visibleRule": "FsiPathSelection = Custom"
+        }
+    ],
+    "execution": {
+        "Node": {
+            "target": "runFSharpScript.js"
+        }
+    }
+}
