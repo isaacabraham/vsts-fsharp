@@ -15,6 +15,10 @@ nuget Newtonsoft.Json
 #load "build-utils.fsx"
 open ``Build-utils``
 
+#if INTERACTIVE
+#r "netstandard"
+#endif
+
 open System
 open System.Text
 open System.Text.RegularExpressions
