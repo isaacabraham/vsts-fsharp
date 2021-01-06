@@ -90,7 +90,7 @@ Target.create "CompileCredentialManager" (fun _ ->
     Shell.cleanDir "Common/CredentialProvider"
     DotNet.publish (fun c ->
         { c with
-            Runtime = None
+            Runtime = Some "win-x64" // TODO: publish it also for linux and osx
             Configuration = DotNet.Release
             OutputPath = Some (Path.GetFullPath "Common/CredentialProvider")
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
