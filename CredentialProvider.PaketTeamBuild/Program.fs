@@ -11,16 +11,16 @@ let printErr msg =
 
 let tryGetArg (name:string) (argv: string array) =
     let lowerName = name.ToLowerInvariant()
-    match
+    match 
         argv |> Seq.tryFindIndex (fun s ->
-            let arg = s.ToLowerInvariant()
+            let arg = s.ToLowerInvariant() 
             arg = sprintf "/%s" lowerName || arg = sprintf "-%s" lowerName || arg = sprintf "--%s" lowerName)
         with
     | Some i ->
         if argv.Length > i + 1 then
             Some argv.[i + 1]
         else failwithf "Argument for '%s' is missing" argv.[i]
-    | None -> None
+    | None -> None                    
 
 
 let impl argv =
@@ -40,7 +40,7 @@ let impl argv =
         elif uri.Host.Contains "visualstudio.com" then
             uri.Host.Split('.').[0]
         else
-            failwithf "Cannot extract instance name from uri '%s'" uri.OriginalString
+            failwithf "Cannot extract instance name from uri '%s'" uri.OriginalString            
     let isResponsible =
         if String.IsNullOrWhiteSpace uriStr then
             isAzureDevOps givenUri.Host || givenUri.PathAndQuery.StartsWith "/tfs/"
@@ -57,9 +57,9 @@ let impl argv =
 
     if not isResponsible then
         printfn """
-{ "Message"  : "%s" }""" "This credential provider only serves TFS collection or Azure DevOps organization links (check 'SYSTEM_TEAMFOUNDATIONCOLLECTIONURI' environment variable!)."
+{ "Message"  : "%s" }""" "This credential provider only serves teamfoundation or vsts links (check 'SYSTEM_TEAMFOUNDATIONCOLLECTIONURI' environment variable!)."
         1
-    else
+    else  
         if String.IsNullOrWhiteSpace(token) then
             printErr("This credential provider must be run under the Team Build tasks for NuGet")
             1
@@ -80,4 +80,4 @@ let main argv =
             137
     finally
         Console.Out.Flush()
-        Console.Error.Flush()
+        Console.Error.Flush()        
