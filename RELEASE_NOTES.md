@@ -1,5 +1,10 @@
 # Release notes
 
+## 1.5.0
+
+* Go for self-contained .NET 5.0
+* Update to azure-pipelines-*-lib npm packages
+
 ## 1.4.0
 
 * Add new Fsharp Script task version
