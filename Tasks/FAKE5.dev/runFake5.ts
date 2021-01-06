@@ -7,7 +7,6 @@ import * as path from "path";
 import * as fs from "fs";
 import * as common from "vsts-fsharp-task-common";
 import * as semver from "semver";
-import { isNullOrUndefined } from "util";
 
 function exitWithError(message, exitCode) {
   tl.error(message);
@@ -33,13 +32,13 @@ async function doMain() {
     let scriptDir = path.dirname(scriptPath);
     let scriptName = path.basename(scriptPath);
     let workingDir = tl.getPathInput("WorkingDirectory");
-    if (isNullOrUndefined(workingDir) || workingDir == "") {
+    if (workingDir === null || workingDir === undefined || workingDir == "") {
       tl.debug(`Using scriptdir '${scriptDir}' as working directory as workingDir was empty.`);
       workingDir = scriptDir;
     }
 
     let scriptArgs = tl.getInput("ScriptArguments");
-    if (isNullOrUndefined(scriptArgs)) {
+    if (scriptArgs === null || scriptArgs === undefined) {
       scriptArgs = "";
     }
 

@@ -6,7 +6,6 @@ import * as rm from 'typed-rest-client';
 import * as toolLib from 'azure-pipelines-tool-lib/tool';
 import * as ghTyped from "./githubTyped";
 import * as vault from "./myvault";
-import { isNullOrUndefined } from "util";
 
 interface Variables {
     keyFile : string;
@@ -108,7 +107,7 @@ export async function downloadAndReturnInvocation(fakeVersion:semver.SemVer, fak
   }
 
   let fakeDll = path.join(toolPath, "fake.dll");
-  if (isNullOrUndefined(fakeArgs) || fakeArgs === "") {
+  if (fakeArgs === null || fakeArgs === undefined || fakeArgs === "") {
     return [ dotnetExecutable, fakeDll ]
   } else {
     return [ dotnetExecutable, `${fakeDll} ${fakeArgs}`]
