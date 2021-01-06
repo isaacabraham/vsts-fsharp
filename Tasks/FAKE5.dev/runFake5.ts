@@ -1,8 +1,8 @@
 
 "use strict";
 
-import * as tl from "vsts-task-lib/task";
-import * as trm from 'vsts-task-lib/toolrunner';
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as trm from 'azure-pipelines-task-lib/toolrunner';
 import * as path from "path";
 import * as fs from "fs";
 import * as common from "vsts-fsharp-task-common";
@@ -60,7 +60,7 @@ async function doMain() {
 
     let preventSecrets = tl.getBoolInput("PreventSecrets");
     let failOnStdError = tl.getBoolInput("FailOnStdError");
-    
+
     // Download and cache fake as tool
     let result = await common.downloadFakeAndReturnInvocation(fakeVersion, fakeArgs);
     if (!result) {
@@ -79,7 +79,7 @@ async function doMain() {
     let json = common.createFakeVariablesJson(secretFile, preventSecrets);
     tl.debug("FAKE_VSTS_VAULT_VARIABLES: " + json);
     process.env["FAKE_VSTS_VAULT_VARIABLES"] = json;
-    
+
     // run `dotnet fake.dll` with the specified arguments
     await tl.exec(executable, args, <trm.IExecOptions>{
       failOnStdErr: failOnStdError,

@@ -1,8 +1,8 @@
 
 "use strict";
 
-import * as tl from "vsts-task-lib";
-import * as tmp from "tmp";
+import * as tl from "azure-pipelines-task-lib";
+import * as tmp from 'tmp';
 import * as path from "path";
 import * as fs from 'fs';
 

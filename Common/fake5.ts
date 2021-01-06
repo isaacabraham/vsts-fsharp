@@ -1,10 +1,9 @@
 
 import * as path from "path";
-import * as fs from "fs";
-import * as tl from "vsts-task-lib";
+import * as tl from "azure-pipelines-task-lib";
 import * as semver from "semver";
 import * as rm from 'typed-rest-client';
-import * as toolLib from 'vsts-task-tool-lib/tool';
+import * as toolLib from 'azure-pipelines-tool-lib/tool';
 import * as ghTyped from "./githubTyped";
 import * as vault from "./myvault";
 import { isNullOrUndefined } from "util";
@@ -34,7 +33,7 @@ export function createFakeVariablesJson(secretFile : string, filterSecrets : boo
           return true;
         }
       });
-    let json = JSON.stringify(<Variables>{ 
+    let json = JSON.stringify(<Variables>{
       keyFile: secretFile,
       iv: v.retrieveIVBase64(),
       values: variables });
@@ -98,7 +97,7 @@ export async function downloadAndReturnInvocation(fakeVersion:semver.SemVer, fak
     tl.error("Require a `dotnet` executable in PATH for this task, consider using the 'DotNetCoreInstaller' task before this one.");
     return null;
   }
-  
+
   let toolPath = toolLib.findLocalTool(toolCacheName, fakeVersion.raw);
   if (!toolPath){
     toolPath = await downloadPortableFake(fakeVersion);
