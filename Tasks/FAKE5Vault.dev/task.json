@@ -3,13 +3,13 @@
     "name": "FAKE5Vault",
     "friendlyName": "FAKE 5 Vault",
     "description": "Prepare the environment to fill a Fake 5 Vault.",
-    "helpMarkDown": "Please consider using the fake 5 runner task instead. This task encrypts the VSTS variables (including secret ones) and prepares a given environment variable to fill a fake 5 vault. Make sure to remove the variable as soon as you used it by outputting `##vso[task.setvariable variable=FAKE_VAULT;]null`.",
+    "helpMarkDown": "Please consider using the fake 5 runner task instead. This task encrypts the Azure DevOps variables (including secret ones) and prepares a given environment variable to fill a fake 5 vault. Make sure to remove the variable as soon as you used it by outputting `##vso[task.setvariable variable=FAKE_VAULT;]null`.",
     "category": "Build",
     "author": "Matthias Dittrich",
     "version": {
         "Major": 1,
-        "Minor": 0,
-        "Patch": 5
+        "Minor": 1,
+        "Patch": 0
     },
     "minimumAgentVersion": "1.83.0",
     "instanceNameFormat": "Prepare the environment to fill a Fake 5 Vault.",

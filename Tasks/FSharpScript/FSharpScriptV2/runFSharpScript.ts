@@ -20,7 +20,7 @@ async function doMain() {
 
     // get fsi.exe path from path selection
     var fsiPath = "";
-    switch(FSIPathSelection){
+    switch (FSIPathSelection) {
       case "Custom": {
         fsiPath = tl.getPathInput("CustomPath", true, false);
         break;
@@ -41,21 +41,21 @@ async function doMain() {
     }
 
     // checks if the fsi.exe path exist. Otherwise try to resolve through PATH variables
-    if (!tl.exist(fsiPath)){
+    if (!tl.exist(fsiPath)) {
       console.log("Could not find fsi.exe. Attempting to resolve fsi.exe in PATH");
       fsiPath = tl.which("fsi.exe");
     }
 
     // Check a final time if fsi.exe path exists. Otherwise fails
-    if (!tl.exist(fsiPath)){
-      exitWithError(`Unable to resolve any fsi.exe paths`,1);
+    if (!tl.exist(fsiPath)) {
+      exitWithError(`Unable to resolve any fsi.exe paths`, 1);
       return;
     }
 
     tl.debug(`Using fsi.exe path '${fsiPath}'`);
     tl.debug(`Using scriptPath '${scriptFile}'`);
-    var atool:tr.ToolRunner = tl.tool(fsiPath).arg(scriptFile);
-    
+    var atool: tr.ToolRunner = tl.tool(fsiPath).arg(scriptFile);
+
     if (!isNullOrUndefined(scriptArgs)) {
       tl.debug(`Using arguments '${scriptArgs}'`);
       atool = atool.line(scriptArgs);

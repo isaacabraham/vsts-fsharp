@@ -1,13 +1,12 @@
 
 "use strict";
 
-import * as tl from "vsts-task-lib/task";
-import * as trm from 'vsts-task-lib/toolrunner';
+import * as tl from 'azure-pipelines-task-lib/task';
+import * as trm from 'azure-pipelines-task-lib/toolrunner';
 import * as path from "path";
 import * as fs from "fs";
 import * as common from "vsts-fsharp-task-common";
 import * as semver from "semver";
-import { isNullOrUndefined } from "util";
 
 function exitWithError(message, exitCode) {
   tl.error(message);
@@ -33,13 +32,13 @@ async function doMain() {
     let scriptDir = path.dirname(scriptPath);
     let scriptName = path.basename(scriptPath);
     let workingDir = tl.getPathInput("WorkingDirectory");
-    if (isNullOrUndefined(workingDir) || workingDir == "") {
+    if (workingDir === null || workingDir === undefined || workingDir == "") {
       tl.debug(`Using scriptdir '${scriptDir}' as working directory as workingDir was empty.`);
       workingDir = scriptDir;
     }
 
     let scriptArgs = tl.getInput("ScriptArguments");
-    if (isNullOrUndefined(scriptArgs)) {
+    if (scriptArgs === null || scriptArgs === undefined) {
       scriptArgs = "";
     }
 
@@ -60,7 +59,7 @@ async function doMain() {
 
     let preventSecrets = tl.getBoolInput("PreventSecrets");
     let failOnStdError = tl.getBoolInput("FailOnStdError");
-    
+
     // Download and cache fake as tool
     let result = await common.downloadFakeAndReturnInvocation(fakeVersion, fakeArgs);
     if (!result) {
@@ -79,7 +78,7 @@ async function doMain() {
     let json = common.createFakeVariablesJson(secretFile, preventSecrets);
     tl.debug("FAKE_VSTS_VAULT_VARIABLES: " + json);
     process.env["FAKE_VSTS_VAULT_VARIABLES"] = json;
-    
+
     // run `dotnet fake.dll` with the specified arguments
     await tl.exec(executable, args, <trm.IExecOptions>{
       failOnStdErr: failOnStdError,

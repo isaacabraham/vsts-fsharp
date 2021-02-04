@@ -1,19 +1,17 @@
-resources:
-- repo: self
-queue:
-  name: Hosted VS2017
+jobs:
+- job: Windows
+  pool:
+    vmImage: 'vs2017-win2016'
 
-steps:
-- task: DotNetCoreInstaller@0
-  displayName: 'Use .NET Core sdk 2.1.402'
-  inputs:
-    version: 2.1.402
-- task: matthid.fsharp-helpers-extension-private.a2dadf20-1a83-4220-a4ee-b52f6c77f3cf.FAKE5@1
-  displayName: 'Run the Build'
-  inputs:
-    FakeVersion: 5.5.0
-    ScriptArguments: '-t BuildArtifacts'
-
-
-
-
+  steps:
+  - checkout: self
+  - task: UseDotNetTask@2
+    displayName: 'Use .Net sdk '
+    inputs:
+      useGlobalJson: true
+      workingDirectory: '$(Build.SourcesDirectory)'
+  - task: matthid.fsharp-helpers-extension-private.a2dadf20-1a83-4220-a4ee-b52f6c77f3cf.FAKE5@1
+    displayName: 'Run the Build'
+    inputs:
+      FakeVersion: 5.5.0
+      ScriptArguments: '-t BuildArtifacts'

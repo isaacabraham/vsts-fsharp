@@ -57,18 +57,18 @@ let version = release.NugetVersion
 open Fake.Core
 open Fake.Core.TargetOperators
 
-let extensionDirNames = 
-    [ 
+let extensionDirNames =
+    [
       "PaketCredentialCleanup";"SetPaketCredentialProvider";
       "FSharpScript" </> "FSharpScriptV1"; "FSharpScript" </> "FSharpScriptV2";
-      "FAKE4Runner"; "PaketRestore"; "FAKE5"; "FAKE5Vault" 
+      "FAKE4Runner"; "PaketRestore"; "FAKE5"; "FAKE5Vault"
       ]
 
 let dirs =
     extensionDirNames
-    |> List.map (fun dir -> "Tasks" </> dir) 
+    |> List.map (fun dir -> "Tasks" </> dir)
 
-let asDevel d = 
+let asDevel d =
     let devDir = d + ".dev"
     if Directory.Exists devDir then devDir else d
 
@@ -84,13 +84,13 @@ let npmCi dir =
     with _ ->
         printfn "npm ci failed, trying to delete the lockfile"
         File.Delete (dir </> "package-lock.json")
-        Npm.install dir []        
+        Npm.install dir []
 
 Target.create "CompileCredentialManager" (fun _ ->
     Shell.cleanDir "Common/CredentialProvider"
     DotNet.publish (fun c ->
         { c with
-            Runtime = None
+            Runtime = Some "win-x64" // TODO: publish it also for linux and osx
             Configuration = DotNet.Release
             OutputPath = Some (Path.GetFullPath "Common/CredentialProvider")
         }) "CredentialProvider.PaketTeamBuild/CredentialProvider.PaketTeamBuild.fsproj"
@@ -158,7 +158,7 @@ Target.create "SetupTaskDirectories" (fun _ ->
             !! (dir </> "**/*.ts")
                 |> Seq.iter File.delete
     // delete stuff we don't want
-    
+
     // cleanup node_modules to only contain --production dependencies
     for dir in dirs do
         if File.Exists (dir </> "package.json") then
@@ -184,7 +184,7 @@ Target.create "BuildArtifacts" (fun _ ->
 Target.create "RestoreArtifacts" (fun args ->
     if args.Context.TryFindPrevious "NpmInstall" |> Option.isNone then
         npmCi "tfx"
-        
+
     Directory.ensure "tfx"
     Shell.cp (artifactsDir </> "tasks.zip") (artifactsDir </> "tasks_unzip.zip")
     Zip.unzip "tfx" (artifactsDir </> "tasks_unzip.zip")
@@ -222,27 +222,27 @@ Target.create "BundleExtensions" (fun _ ->
     File.Copy("README.md", "tfx/README.md", true)
 
     // Bundle vsix files
-    let replacements = 
+    let replacements =
         [ { NamePostfix = ""; IdPostfix = ""; Public = true }
           { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } ]
-    
+
     let createExtension ext =
         for repl in replacements do
             let sourceName = sprintf "ext-%s.json" ext
             let targetName = sprintf "ext-%s%s.temp.json" ext repl.IdPostfix
-            
+
             replaceInFile ("tfx" </> sourceName) ("tfx" </> targetName) repl.AsList
-                
+
             Npm.script "tfx" "tfx" ["extension"; "create"; "--manifest-globs"; targetName]
             File.Delete("tfx" </> targetName)
-    
+
     createExtension "fsharp-helpers-extension"
 
     replaceTaskJsons()
 
     createExtension "fake-build"
     createExtension "paket"
-    
+
     !! "tfx/*.vsix"
         |> Shell.copy (artifactsDir </> "vsix")
 
@@ -266,17 +266,17 @@ Target.create "PublishImpl" (fun _ ->
 
     let repl =
         if publishPrivate
-        then { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false } 
+        then { NamePostfix = " (Private)"; IdPostfix = "-private"; Public = false }
         else { NamePostfix = ""; IdPostfix = ""; Public = true }
-    
+
     let exts = [ "fsharp-helpers-extension"; "fake-build"; "paket"]
-    let vsixFiles =    
+    let vsixFiles =
         exts
         |> List.map (fun ext ->
             let prefix = sprintf "%s.%s%s-" publisher ext repl.IdPostfix
             let vsixFile =
                !! (artifactsDir </> "vsix" </> sprintf "%s*.vsix" prefix)
-               |> Seq.filter (fun file -> 
+               |> Seq.filter (fun file ->
                     let name = Path.GetFileName(file)
                     not <| name.Substring(prefix.Length).Contains("-"))
                |> Seq.exactlyOne
@@ -303,7 +303,7 @@ Target.create "PublishImpl" (fun _ ->
             if not <| result.Contains "pending" then
                 if not <| result.Contains "success" then
                     failed <- (vsixFile, result) :: failed
-                
+
                 pending <-
                     pending
                     |> List.filter (fun (_, vsix) -> vsix <> vsixFile)
@@ -312,7 +312,7 @@ Target.create "PublishImpl" (fun _ ->
         let failedString =
             System.String.Join("\n    ", failed |> Seq.map (fun (vsixFile, result) -> sprintf "%s: %s" vsixFile result))
         let pendingString =
-            System.String.Join("\n    ", pending |> Seq.map (fun (ext, vsixFile) -> vsixFile))
+            System.String.Join("\n    ", pending |> Seq.map (fun (_, vsixFile) -> vsixFile))
         failwithf
             """Some extensions failed to validate:
 - Failed:

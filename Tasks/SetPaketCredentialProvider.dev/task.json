@@ -8,8 +8,8 @@
     "author": "Matthias Dittrich",
     "version": {
         "Major": 0,
-        "Minor": 2,
-        "Patch": 5
+        "Minor": 3,
+        "Patch": 0
     },
     "instanceNameFormat": "Setup Paket Credential Manager",
     "groups": [ ],
