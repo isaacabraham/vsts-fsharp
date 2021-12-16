@@ -15,7 +15,7 @@
     "groups": [ ],
     "inputs": [ ],
     "execution": {
-        "Node": {
+        "Node10": {
             "target": "setCredentialManager.js"
         }
     }

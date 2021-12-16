@@ -89,7 +89,7 @@
         }
     ],
     "execution": {
-        "Node": {
+        "Node10": {
             "target": "runFake5.js"
         }
     }

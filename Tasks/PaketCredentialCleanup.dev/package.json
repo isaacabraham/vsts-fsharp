@@ -6,10 +6,10 @@
     "adm-zip": "^0.4.11",
     "tmp": "0.0.31",
     "vsts-fsharp-task-common": "file:../../_build/vsts-fsharp-task-common-0.2.3.tgz",
-    "vsts-task-lib": "^2.6.0"
+    "azure-pipelines-task-lib": "^2.7.7"
   },
   "devDependencies": {
-    "@types/node": "^7.0.69",
-    "typescript": "^2.9.2"
+    "@types/node": "^12",
+    "typescript": "^4.0.2"
   }
 }
