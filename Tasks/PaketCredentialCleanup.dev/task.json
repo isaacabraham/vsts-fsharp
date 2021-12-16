@@ -17,7 +17,7 @@
     "inputs": [
     ],
     "execution": {
-        "Node": {
+        "Node10": {
             "target": "cleanup.js"
         }
     }

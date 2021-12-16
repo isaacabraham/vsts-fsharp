@@ -53,3 +53,11 @@ required.
 ### Execute F# Script
 Use the **Execute F# Script** task to run any ```.fsx``` file located in the repository as part of
 your build - simply supply the path to the ```.fsx``` file.
+
+Building the project
+--------------------
+
+```
+dotnet tool restore
+dotnet fake run build.fsx
+```
