@@ -1,8 +1,8 @@
 
 "use strict";
 
-import * as tl from "vsts-task-lib/task";
-import * as trm from 'vsts-task-lib/toolrunner';
+import * as tl from "azure-pipelines-task-lib/task";
+import * as trm from 'azure-pipelines-task-lib/toolrunner';
 import * as path from "path";
 import * as fs from "fs";
 import * as common from "vsts-fsharp-task-common";

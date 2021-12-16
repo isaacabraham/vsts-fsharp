@@ -1,10 +1,10 @@
 
 import * as path from "path";
 import * as fs from "fs";
-import * as tl from "vsts-task-lib";
+import * as tl from "azure-pipelines-task-lib";
 import * as semver from "semver";
 import * as rm from 'typed-rest-client';
-import * as toolLib from 'vsts-task-tool-lib/tool';
+import * as toolLib from 'azure-pipelines-tool-lib/tool';
 import * as ghTyped from "./githubTyped";
 import * as vault from "./myvault";
 import { isNullOrUndefined } from "util";
